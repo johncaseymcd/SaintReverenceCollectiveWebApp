@@ -7,6 +7,12 @@ namespace SaintReverenceMVC.Data
 {
     public partial class Product
     {
+        public Product()
+        {
+            InvoicesProducts = new HashSet<InvoicesProduct>();
+            OrdersProducts = new HashSet<OrdersProduct>();
+        }
+
         public int ProductId { get; set; }
         public string ProductName { get; set; }
         public string ProductDescription { get; set; }
@@ -25,5 +31,7 @@ namespace SaintReverenceMVC.Data
         public virtual Collection Collection { get; set; }
         public virtual Package Package { get; set; }
         public virtual Vendor Vendor { get; set; }
+        public virtual ICollection<InvoicesProduct> InvoicesProducts { get; set; }
+        public virtual ICollection<OrdersProduct> OrdersProducts { get; set; }
     }
 }

@@ -14,6 +14,7 @@ namespace SaintReverenceMVC.Data
 
         public Guid CustomerId { get; set; }
         public string CustomerFirstName { get; set; }
+        public string CustomerMiddleName { get; set; }
         public string CustomerLastName { get; set; }
         public DateTime CustomerBirthday { get; set; }
         public string CustomerEmail { get; set; }

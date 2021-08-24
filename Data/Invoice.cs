@@ -7,6 +7,11 @@ namespace SaintReverenceMVC.Data
 {
     public partial class Invoice
     {
+        public Invoice()
+        {
+            InvoicesProducts = new HashSet<InvoicesProduct>();
+        }
+
         public Guid InvoiceId { get; set; }
         public decimal CostOfProducts { get; set; }
         public decimal TaxPaid { get; set; }
@@ -18,5 +23,6 @@ namespace SaintReverenceMVC.Data
         public int VendorId { get; set; }
 
         public virtual Vendor Vendor { get; set; }
+        public virtual ICollection<InvoicesProduct> InvoicesProducts { get; set; }
     }
 }

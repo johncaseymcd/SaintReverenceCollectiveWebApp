@@ -7,6 +7,11 @@ namespace SaintReverenceMVC.Data
 {
     public partial class Order
     {
+        public Order()
+        {
+            OrdersProducts = new HashSet<OrdersProduct>();
+        }
+
         public Guid OrderId { get; set; }
         public DateTime OrderDate { get; set; }
         public DateTime? ShippedDate { get; set; }
@@ -17,5 +22,6 @@ namespace SaintReverenceMVC.Data
         public virtual Customer Customer { get; set; }
         public virtual Status OrderStatusNavigation { get; set; }
         public virtual Package Package { get; set; }
+        public virtual ICollection<OrdersProduct> OrdersProducts { get; set; }
     }
 }

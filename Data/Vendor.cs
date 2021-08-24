@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 #nullable disable
 
@@ -13,7 +14,9 @@ namespace SaintReverenceMVC.Data
             Products = new HashSet<Product>();
         }
 
+        [Key]
         public int VendorId { get; set; }
+        [Required, MaxLength(100)]
         public string VendorName { get; set; }
 
         public virtual ICollection<Invoice> Invoices { get; set; }

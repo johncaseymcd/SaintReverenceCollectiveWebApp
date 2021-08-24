@@ -292,7 +292,7 @@ namespace SaintReverenceMVC.Data
 
                 entity.Property(e => e.VendorId).HasColumnName("vendorID");
 
-                entity.HasOne(d => d.Vendor)
+                entity.HasOne(d => d.VendorNavigation)
                     .WithMany(p => p.Invoices)
                     .HasForeignKey(d => d.VendorId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
@@ -310,13 +310,13 @@ namespace SaintReverenceMVC.Data
 
                 entity.Property(e => e.ProductId).HasColumnName("productID");
 
-                entity.HasOne(d => d.Invoice)
+                entity.HasOne(d => d.InvoiceNavigation)
                     .WithMany(p => p.InvoicesProducts)
                     .HasForeignKey(d => d.InvoiceId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_InvoicesProducts_Invoices");
 
-                entity.HasOne(d => d.Product)
+                entity.HasOne(d => d.ProductNavigation)
                     .WithMany(p => p.InvoicesProducts)
                     .HasForeignKey(d => d.ProductId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
@@ -345,7 +345,7 @@ namespace SaintReverenceMVC.Data
                     .HasColumnType("datetime")
                     .HasColumnName("shippedDate");
 
-                entity.HasOne(d => d.Customer)
+                entity.HasOne(d => d.CustomerNavigation)
                     .WithMany(p => p.Orders)
                     .HasForeignKey(d => d.CustomerId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
@@ -357,7 +357,7 @@ namespace SaintReverenceMVC.Data
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_Orders_Statuses");
 
-                entity.HasOne(d => d.Package)
+                entity.HasOne(d => d.PackageNavigation)
                     .WithMany(p => p.Orders)
                     .HasForeignKey(d => d.PackageId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
@@ -375,13 +375,13 @@ namespace SaintReverenceMVC.Data
 
                 entity.Property(e => e.ProductId).HasColumnName("productID");
 
-                entity.HasOne(d => d.Order)
+                entity.HasOne(d => d.OrderNavigation)
                     .WithMany(p => p.OrdersProducts)
                     .HasForeignKey(d => d.OrderId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_OrdersProducts_Orders");
 
-                entity.HasOne(d => d.Product)
+                entity.HasOne(d => d.ProductNavigation)
                     .WithMany(p => p.OrdersProducts)
                     .HasForeignKey(d => d.ProductId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
@@ -480,25 +480,25 @@ namespace SaintReverenceMVC.Data
 
                 entity.Property(e => e.VendorId).HasColumnName("vendorID");
 
-                entity.HasOne(d => d.Category)
+                entity.HasOne(d => d.CategoryNavigation)
                     .WithMany(p => p.Products)
                     .HasForeignKey(d => d.CategoryId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_Products_Categories");
 
-                entity.HasOne(d => d.Collection)
+                entity.HasOne(d => d.CollectionNavigation)
                     .WithMany(p => p.Products)
                     .HasForeignKey(d => d.CollectionId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_Products_Collections");
 
-                entity.HasOne(d => d.Package)
+                entity.HasOne(d => d.PackageNavigation)
                     .WithMany(p => p.Products)
                     .HasForeignKey(d => d.PackageId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_Products_Packages");
 
-                entity.HasOne(d => d.Vendor)
+                entity.HasOne(d => d.VendorNavigation)
                     .WithMany(p => p.Products)
                     .HasForeignKey(d => d.VendorId)
                     .OnDelete(DeleteBehavior.ClientSetNull)

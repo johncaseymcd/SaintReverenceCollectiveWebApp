@@ -11,7 +11,7 @@ namespace SaintReverenceMVC.Data
         {
             Products = new HashSet<Product>();
         }
-
+        
         public int CategoryId { get; set; }
         public string CategoryName { get; set; }
 

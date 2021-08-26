@@ -1,21 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
+using System;
 using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
 
-#nullable disable
-
-namespace SaintReverenceMVC.Data
+namespace SaintReverenceMVC.Models.InvoiceModels
 {
-    public partial class Invoice
+    public class InvoiceCreate
     {
-        public Invoice()
-        {
-            InvoicesProducts = new HashSet<InvoicesProduct>();
-        }
-
-        [Key]
-        public Guid InvoiceId { get; set; }
         [Required]
         public decimal CostOfProducts { get; set; }
         [Required]
@@ -31,10 +20,7 @@ namespace SaintReverenceMVC.Data
         [Required]
         public bool InvoiceIsPaid { get; set; }
         public DateTime PaidDate { get; set; }
-        [ForeignKey(nameof(Vendor))]
-        public int VendorId { get; set; }
-
-        public virtual Vendor VendorNavigation { get; set; }
-        public virtual ICollection<InvoicesProduct> InvoicesProducts { get; set; }
+        [Required]
+        public int VendorID { get; set; }
     }
 }

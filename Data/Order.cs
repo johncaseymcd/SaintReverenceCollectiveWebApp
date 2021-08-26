@@ -18,7 +18,8 @@ namespace SaintReverenceMVC.Data
         public Guid OrderId { get; set; }
         [Required]
         public DateTime OrderDate { get; set; }
-        public DateTime? ShippedDate { get; set; }
+        public DateTime ShippedDate { get; set; }
+        public decimal OrderTotal { get; set; }
         [Required]
         public int OrderStatus { get; set; }
         [ForeignKey(nameof(CustomerNavigation))]

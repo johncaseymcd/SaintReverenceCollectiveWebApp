@@ -4,6 +4,7 @@ namespace SaintReverenceMVC.Models.CustomerModels
 {
     public class CustomerDetail
     {
+        public Guid CustomerID { get; set; }
         public string CustomerName { get; set; }
         public DateTime CustomerBirthday { get; set; }
         public string CustomerEmail { get; set; }

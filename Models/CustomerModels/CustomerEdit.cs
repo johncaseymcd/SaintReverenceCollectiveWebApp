@@ -1,9 +1,11 @@
+using System;
 using System.ComponentModel.DataAnnotations;
 
 namespace SaintReverenceMVC.Models.CustomerModels
 {
     public class CustomerEdit
     {
+        public Guid CustomerID { get; set; }
         [MaxLength(50)]
         public string CustomerFirstName { get; set; }
         [MaxLength(50)]

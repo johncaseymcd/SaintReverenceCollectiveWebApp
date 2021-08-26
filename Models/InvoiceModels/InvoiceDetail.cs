@@ -4,6 +4,7 @@ namespace SaintReverenceMVC.Models.InvoiceModels
 {
     public class InvoiceDetail
     {
+        public Guid InvoiceID { get; set; }
         public decimal TotalCost { get; set; }
         public decimal TaxPaid { get; set; }
         public DateTime CreateDate { get; set; }

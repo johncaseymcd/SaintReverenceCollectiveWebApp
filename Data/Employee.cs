@@ -38,7 +38,7 @@ namespace SaintReverenceMVC.Data
         [Required, MaxLength(100)]
         public string EmployeeAddressCountry { get; set; }
         [Required, MaxLength(255)]
-        public string EmployeeSsnhash { get; set; }
+        public string EmployeeSSNHash { get; set; }
         [Required]
         public decimal EmployeeSalaryPerYear { get; set; }
         [Required, Range(0, 41)]

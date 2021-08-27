@@ -243,7 +243,7 @@ namespace SaintReverenceMVC.Data
                     .HasColumnType("money")
                     .HasColumnName("employeeSalaryPerYear");
 
-                entity.Property(e => e.EmployeeSsnhash)
+                entity.Property(e => e.EmployeeSSNHash)
                     .IsRequired()
                     .HasMaxLength(255)
                     .IsUnicode(false)

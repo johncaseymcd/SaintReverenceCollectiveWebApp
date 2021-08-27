@@ -67,13 +67,26 @@ namespace SaintReverenceMVC
                     pattern: "{controller=Collection}/{action}/{id?}"
                 );
                 endpoints.MapControllerRoute(
-                    name: "CustomersByBirthday",
-                    pattern: "{controller=Customer}/{action=IndexByBirthday}/{birthday}"
+                    name: "Birthday",
+                    pattern: "{controller}/{action=IndexByBirthday}/{birthday}"
                 );
                 endpoints.MapControllerRoute(
                     name: "CustomerDefault",
                     pattern: "{controller=Customer}/{action}/{id?}"
                 );
+                endpoints.MapControllerRoute(
+                    name: "ActiveStatus",
+                    pattern: "{controller}/{action=IndexByStatus}/{status}"
+                );
+                endpoints.MapControllerRoute(
+                    name: "EmployeesByPermissionLevel",
+                    pattern: "{controller=Employee}/{action=IndexByPermissionLevel/{level}"
+                );
+                endpoints.MapControllerRoute(
+                    name: "EmployeeDefault",
+                    pattern: "{controller=Employee}/{action}/{id?}"
+                );
+                
             });
         }
     }

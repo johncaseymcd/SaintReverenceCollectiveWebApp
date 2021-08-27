@@ -22,7 +22,9 @@ namespace SaintReverenceMVC.Data
         public virtual DbSet<Customer> Customers { get; set; }
         public virtual DbSet<Employee> Employees { get; set; }
         public virtual DbSet<Invoice> Invoices { get; set; }
+        public virtual DbSet<InvoicesProduct> InvoicesProducts { get; set; }
         public virtual DbSet<Order> Orders { get; set; }
+        public virtual DbSet<OrdersProduct> OrdersProducts { get; set; }
         public virtual DbSet<Package> Packages { get; set; }
         public virtual DbSet<Permission> Permissions { get; set; }
         public virtual DbSet<Product> Products { get; set; }
@@ -45,7 +47,7 @@ namespace SaintReverenceMVC.Data
             {
                 entity.ToTable("Categories", "products");
 
-                entity.Property(e => e.CategoryId).HasColumnName("categoryID");
+                entity.Property(e => e.CategoryID).HasColumnName("categoryID");
 
                 entity.Property(e => e.CategoryName)
                     .IsRequired()
@@ -58,7 +60,7 @@ namespace SaintReverenceMVC.Data
             {
                 entity.ToTable("Collections", "products");
 
-                entity.Property(e => e.CollectionId).HasColumnName("collectionID");
+                entity.Property(e => e.CollectionID).HasColumnName("collectionID");
 
                 entity.Property(e => e.CollectionDescription)
                     .HasMaxLength(1000)
@@ -84,36 +86,31 @@ namespace SaintReverenceMVC.Data
             {
                 entity.ToTable("Customers", "users");
 
-                entity.Property(e => e.CustomerId)
+                entity.Property(e => e.CustomerID)
                     .HasColumnName("customerID")
                     .HasDefaultValueSql("(newid())");
 
                 entity.Property(e => e.CustomerAddressCity)
                     .IsRequired()
                     .HasMaxLength(255)
-                    .IsUnicode(false)
                     .HasColumnName("customerAddressCity");
 
                 entity.Property(e => e.CustomerAddressCountry)
                     .IsRequired()
                     .HasMaxLength(100)
-                    .IsUnicode(false)
                     .HasColumnName("customerAddressCountry");
 
                 entity.Property(e => e.CustomerAddressLine1)
                     .IsRequired()
                     .HasMaxLength(255)
-                    .IsUnicode(false)
                     .HasColumnName("customerAddressLine1");
 
                 entity.Property(e => e.CustomerAddressLine2)
                     .HasMaxLength(255)
-                    .IsUnicode(false)
                     .HasColumnName("customerAddressLine2");
 
                 entity.Property(e => e.CustomerAddressLine3)
                     .HasMaxLength(255)
-                    .IsUnicode(false)
                     .HasColumnName("customerAddressLine3");
 
                 entity.Property(e => e.CustomerAddressPostalCode)
@@ -125,7 +122,6 @@ namespace SaintReverenceMVC.Data
                 entity.Property(e => e.CustomerAddressStateOrProvince)
                     .IsRequired()
                     .HasMaxLength(25)
-                    .IsUnicode(false)
                     .HasColumnName("customerAddressStateOrProvince");
 
                 entity.Property(e => e.CustomerBirthday)
@@ -141,14 +137,16 @@ namespace SaintReverenceMVC.Data
                 entity.Property(e => e.CustomerFirstName)
                     .IsRequired()
                     .HasMaxLength(50)
-                    .IsUnicode(false)
                     .HasColumnName("customerFirstName");
 
                 entity.Property(e => e.CustomerLastName)
                     .IsRequired()
                     .HasMaxLength(50)
-                    .IsUnicode(false)
                     .HasColumnName("customerLastName");
+
+                entity.Property(e => e.CustomerMiddleName)
+                    .HasMaxLength(50)
+                    .HasColumnName("customerMiddleName");
 
                 entity.Property(e => e.CustomerOrderCount).HasColumnName("customerOrderCount");
 
@@ -167,36 +165,31 @@ namespace SaintReverenceMVC.Data
             {
                 entity.ToTable("Employees", "users");
 
-                entity.Property(e => e.EmployeeId)
+                entity.Property(e => e.EmployeeID)
                     .HasColumnName("employeeID")
                     .HasDefaultValueSql("(newid())");
 
                 entity.Property(e => e.EmployeeAddressCity)
                     .IsRequired()
                     .HasMaxLength(255)
-                    .IsUnicode(false)
                     .HasColumnName("employeeAddressCity");
 
                 entity.Property(e => e.EmployeeAddressCountry)
                     .IsRequired()
                     .HasMaxLength(100)
-                    .IsUnicode(false)
                     .HasColumnName("employeeAddressCountry");
 
                 entity.Property(e => e.EmployeeAddressLine1)
                     .IsRequired()
                     .HasMaxLength(255)
-                    .IsUnicode(false)
                     .HasColumnName("employeeAddressLine1");
 
                 entity.Property(e => e.EmployeeAddressLine2)
                     .HasMaxLength(255)
-                    .IsUnicode(false)
                     .HasColumnName("employeeAddressLine2");
 
                 entity.Property(e => e.EmployeeAddressLine3)
                     .HasMaxLength(255)
-                    .IsUnicode(false)
                     .HasColumnName("employeeAddressLine3");
 
                 entity.Property(e => e.EmployeeAddressPostalCode)
@@ -208,7 +201,6 @@ namespace SaintReverenceMVC.Data
                 entity.Property(e => e.EmployeeAddressStateOrProvince)
                     .IsRequired()
                     .HasMaxLength(25)
-                    .IsUnicode(false)
                     .HasColumnName("employeeAddressStateOrProvince");
 
                 entity.Property(e => e.EmployeeBirthday)
@@ -224,7 +216,6 @@ namespace SaintReverenceMVC.Data
                 entity.Property(e => e.EmployeeFirstName)
                     .IsRequired()
                     .HasMaxLength(50)
-                    .IsUnicode(false)
                     .HasColumnName("employeeFirstName");
 
                 entity.Property(e => e.EmployeeHoursPerWeek).HasColumnName("employeeHoursPerWeek");
@@ -234,12 +225,10 @@ namespace SaintReverenceMVC.Data
                 entity.Property(e => e.EmployeeLastName)
                     .IsRequired()
                     .HasMaxLength(50)
-                    .IsUnicode(false)
                     .HasColumnName("employeeLastName");
 
                 entity.Property(e => e.EmployeeMiddleName)
                     .HasMaxLength(50)
-                    .IsUnicode(false)
                     .HasColumnName("employeeMiddleName");
 
                 entity.Property(e => e.EmployeePermissionLevel).HasColumnName("employeePermissionLevel");
@@ -271,7 +260,7 @@ namespace SaintReverenceMVC.Data
             {
                 entity.ToTable("Invoices", "finances");
 
-                entity.Property(e => e.InvoiceId)
+                entity.Property(e => e.InvoiceID)
                     .HasColumnName("invoiceID")
                     .HasDefaultValueSql("(newid())");
 
@@ -293,6 +282,8 @@ namespace SaintReverenceMVC.Data
 
                 entity.Property(e => e.InvoiceIsPaid).HasColumnName("invoiceIsPaid");
 
+                entity.Property(e => e.PaidDate).HasColumnType("datetime");
+
                 entity.Property(e => e.ShippingPaid)
                     .HasColumnType("money")
                     .HasColumnName("shippingPaid");
@@ -301,24 +292,48 @@ namespace SaintReverenceMVC.Data
                     .HasColumnType("money")
                     .HasColumnName("taxPaid");
 
-                entity.Property(e => e.VendorId).HasColumnName("vendorID");
+                entity.Property(e => e.VendorID).HasColumnName("vendorID");
 
-                entity.HasOne(d => d.Vendor)
+                entity.HasOne(d => d.VendorNavigation)
                     .WithMany(p => p.Invoices)
-                    .HasForeignKey(d => d.VendorId)
+                    .HasForeignKey(d => d.VendorID)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_Invoices_Vendors");
+            });
+
+            modelBuilder.Entity<InvoicesProduct>(entity =>
+            {
+                entity.HasKey(e => new { e.InvoiceID, e.ProductID })
+                    .HasName("PK__Invoices__A0834C185010B855");
+
+                entity.ToTable("InvoicesProducts", "joiner");
+
+                entity.Property(e => e.InvoiceID).HasColumnName("invoiceID");
+
+                entity.Property(e => e.ProductID).HasColumnName("productID");
+
+                entity.HasOne(d => d.InvoiceNavigation)
+                    .WithMany(p => p.InvoicesProducts)
+                    .HasForeignKey(d => d.InvoiceID)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_InvoicesProducts_Invoices");
+
+                entity.HasOne(d => d.ProductNavigation)
+                    .WithMany(p => p.InvoicesProducts)
+                    .HasForeignKey(d => d.ProductID)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_InvoicesProducts_Products");
             });
 
             modelBuilder.Entity<Order>(entity =>
             {
                 entity.ToTable("Orders", "finances");
 
-                entity.Property(e => e.OrderId)
+                entity.Property(e => e.OrderID)
                     .HasColumnName("orderID")
                     .HasDefaultValueSql("(newid())");
 
-                entity.Property(e => e.CustomerId).HasColumnName("customerID");
+                entity.Property(e => e.CustomerID).HasColumnName("customerID");
 
                 entity.Property(e => e.OrderDate)
                     .HasColumnType("datetime")
@@ -326,15 +341,17 @@ namespace SaintReverenceMVC.Data
 
                 entity.Property(e => e.OrderStatus).HasColumnName("orderStatus");
 
-                entity.Property(e => e.PackageId).HasColumnName("packageID");
+                entity.Property(e => e.OrderTotal).HasColumnType("money");
+
+                entity.Property(e => e.PackageID).HasColumnName("packageID");
 
                 entity.Property(e => e.ShippedDate)
                     .HasColumnType("datetime")
                     .HasColumnName("shippedDate");
 
-                entity.HasOne(d => d.Customer)
+                entity.HasOne(d => d.CustomerNavigation)
                     .WithMany(p => p.Orders)
-                    .HasForeignKey(d => d.CustomerId)
+                    .HasForeignKey(d => d.CustomerID)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_Orders_Customers");
 
@@ -344,18 +361,42 @@ namespace SaintReverenceMVC.Data
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_Orders_Statuses");
 
-                entity.HasOne(d => d.Package)
+                entity.HasOne(d => d.PackageNavigation)
                     .WithMany(p => p.Orders)
-                    .HasForeignKey(d => d.PackageId)
+                    .HasForeignKey(d => d.PackageID)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_Orders_Package");
+            });
+
+            modelBuilder.Entity<OrdersProduct>(entity =>
+            {
+                entity.HasKey(e => new { e.OrderID, e.ProductID })
+                    .HasName("PK__OrdersPr__BAD83E69C1087E8C");
+
+                entity.ToTable("OrdersProducts", "joiner");
+
+                entity.Property(e => e.OrderID).HasColumnName("orderID");
+
+                entity.Property(e => e.ProductID).HasColumnName("productID");
+
+                entity.HasOne(d => d.OrderNavigation)
+                    .WithMany(p => p.OrdersProducts)
+                    .HasForeignKey(d => d.OrderID)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_OrdersProducts_Orders");
+
+                entity.HasOne(d => d.ProductNavigation)
+                    .WithMany(p => p.OrdersProducts)
+                    .HasForeignKey(d => d.ProductID)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_OrdersProducts_Products");
             });
 
             modelBuilder.Entity<Package>(entity =>
             {
                 entity.ToTable("Packages", "products");
 
-                entity.Property(e => e.PackageId).HasColumnName("packageID");
+                entity.Property(e => e.PackageID).HasColumnName("packageID");
 
                 entity.Property(e => e.PackageCostToShip)
                     .HasColumnType("money")
@@ -387,7 +428,7 @@ namespace SaintReverenceMVC.Data
             modelBuilder.Entity<Permission>(entity =>
             {
                 entity.HasKey(e => e.PermissionLevel)
-                    .HasName("PK__Permissi__31CF9B41D21F4279");
+                    .HasName("PK__Permissi__31CF9B415282F1CB");
 
                 entity.ToTable("Permissions", "helper");
 
@@ -404,13 +445,13 @@ namespace SaintReverenceMVC.Data
             {
                 entity.ToTable("Products", "products");
 
-                entity.Property(e => e.ProductId).HasColumnName("productID");
+                entity.Property(e => e.ProductID).HasColumnName("productID");
 
-                entity.Property(e => e.CategoryId).HasColumnName("categoryID");
+                entity.Property(e => e.CategoryID).HasColumnName("categoryID");
 
-                entity.Property(e => e.CollectionId).HasColumnName("collectionID");
+                entity.Property(e => e.CollectionID).HasColumnName("collectionID");
 
-                entity.Property(e => e.PackageId).HasColumnName("packageID");
+                entity.Property(e => e.PackageID).HasColumnName("packageID");
 
                 entity.Property(e => e.ProductBuyCost)
                     .HasColumnType("money")
@@ -441,29 +482,29 @@ namespace SaintReverenceMVC.Data
                     .HasColumnType("numeric(18, 0)")
                     .HasColumnName("productWeightInGrams");
 
-                entity.Property(e => e.VendorId).HasColumnName("vendorID");
+                entity.Property(e => e.VendorID).HasColumnName("vendorID");
 
-                entity.HasOne(d => d.Category)
+                entity.HasOne(d => d.CategoryNavigation)
                     .WithMany(p => p.Products)
-                    .HasForeignKey(d => d.CategoryId)
+                    .HasForeignKey(d => d.CategoryID)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_Products_Categories");
 
-                entity.HasOne(d => d.Collection)
+                entity.HasOne(d => d.CollectionNavigation)
                     .WithMany(p => p.Products)
-                    .HasForeignKey(d => d.CollectionId)
+                    .HasForeignKey(d => d.CollectionID)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_Products_Collections");
 
-                entity.HasOne(d => d.Package)
+                entity.HasOne(d => d.PackageNavigation)
                     .WithMany(p => p.Products)
-                    .HasForeignKey(d => d.PackageId)
+                    .HasForeignKey(d => d.PackageID)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_Products_Packages");
 
-                entity.HasOne(d => d.Vendor)
+                entity.HasOne(d => d.VendorNavigation)
                     .WithMany(p => p.Products)
-                    .HasForeignKey(d => d.VendorId)
+                    .HasForeignKey(d => d.VendorID)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_Products_Vendors");
             });
@@ -472,7 +513,7 @@ namespace SaintReverenceMVC.Data
             {
                 entity.ToTable("Statuses", "helper");
 
-                entity.Property(e => e.StatusId).HasColumnName("statusID");
+                entity.Property(e => e.StatusID).HasColumnName("statusID");
 
                 entity.Property(e => e.StatusName)
                     .IsRequired()
@@ -485,13 +526,60 @@ namespace SaintReverenceMVC.Data
             {
                 entity.ToTable("Vendors", "products");
 
-                entity.Property(e => e.VendorId).HasColumnName("vendorID");
+                entity.Property(e => e.VendorID).HasColumnName("vendorID");
+
+                entity.Property(e => e.VendorAddressCity)
+                    .HasMaxLength(255)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.VendorAddressCountry)
+                    .IsRequired()
+                    .HasMaxLength(100)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.VendorAddressLine1)
+                    .IsRequired()
+                    .HasMaxLength(255)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.VendorAddressLine2)
+                    .HasMaxLength(255)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.VendorAddressLine3)
+                    .HasMaxLength(255)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.VendorAddressPostalcode)
+                    .IsRequired()
+                    .HasMaxLength(25)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.VendorAddressStateOrProvince)
+                    .IsRequired()
+                    .HasMaxLength(25)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.VendorEmail)
+                    .IsRequired()
+                    .HasMaxLength(50)
+                    .IsUnicode(false);
 
                 entity.Property(e => e.VendorName)
                     .IsRequired()
                     .HasMaxLength(100)
                     .IsUnicode(false)
                     .HasColumnName("vendorName");
+
+                entity.Property(e => e.VendorPhone)
+                    .IsRequired()
+                    .HasMaxLength(25)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.VendorWebsite)
+                    .IsRequired()
+                    .HasMaxLength(50)
+                    .IsUnicode(false);
             });
 
             OnModelCreatingPartial(modelBuilder);

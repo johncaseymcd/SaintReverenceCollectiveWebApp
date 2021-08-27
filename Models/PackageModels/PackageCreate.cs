@@ -1,20 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
-#nullable disable
-
-namespace SaintReverenceMVC.Data
+namespace SaintReverenceMVC.Models.PackageModels
 {
-    public partial class Package
+    public class PackageCreate
     {
-        public Package()
-        {
-            Orders = new HashSet<Order>();
-            Products = new HashSet<Product>();
-        }
-        [Key]
-        public int PackageID { get; set; }
         [Required, MaxLength(100)]
         public string PackageName { get; set; }
         [Required]
@@ -27,8 +16,5 @@ namespace SaintReverenceMVC.Data
         public decimal PackageLengthInCentimeters { get; set; }
         [Required]
         public decimal PackageCostToShip { get; set; }
-
-        public virtual ICollection<Order> Orders { get; set; }
-        public virtual ICollection<Product> Products { get; set; }
     }
 }

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 #nullable disable
 
@@ -12,8 +13,11 @@ namespace SaintReverenceMVC.Data
             Products = new HashSet<Product>();
         }
 
-        public int CollectionId { get; set; }
+        [Key]
+        public int CollectionID { get; set; }
+        [Required, MaxLength(100)]
         public string CollectionName { get; set; }
+        [MaxLength(1000)]
         public string CollectionDescription { get; set; }
         public DateTime? PublishDate { get; set; }
         public DateTime? EndDate { get; set; }

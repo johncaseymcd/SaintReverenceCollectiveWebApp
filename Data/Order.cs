@@ -13,19 +13,18 @@ namespace SaintReverenceMVC.Data
         {
             OrdersProducts = new HashSet<OrdersProduct>();
         }
-
         [Key]
-        public Guid OrderId { get; set; }
+        public Guid OrderID { get; set; }
         [Required]
         public DateTime OrderDate { get; set; }
-        public DateTime ShippedDate { get; set; }
-        public decimal OrderTotal { get; set; }
-        [Required]
+        public DateTime? ShippedDate { get; set; }
+        [ForeignKey(nameof(OrderStatusNavigation))]
         public int OrderStatus { get; set; }
         [ForeignKey(nameof(CustomerNavigation))]
-        public Guid CustomerId { get; set; }
+        public Guid CustomerID { get; set; }
         [ForeignKey(nameof(PackageNavigation))]
-        public int PackageId { get; set; }
+        public int PackageID { get; set; }
+        public decimal OrderTotal { get; set; }
 
         public virtual Customer CustomerNavigation { get; set; }
         public virtual Status OrderStatusNavigation { get; set; }

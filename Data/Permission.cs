@@ -12,7 +12,6 @@ namespace SaintReverenceMVC.Data
         {
             Employees = new HashSet<Employee>();
         }
-
         [Key]
         public int PermissionLevel { get; set; }
         [Required, MaxLength(100)]

@@ -12,7 +12,6 @@ namespace SaintReverenceMVC.Data
         {
             Orders = new HashSet<Order>();
         }
-
         [Key]
         public Guid CustomerId { get; set; }
         [Required, MaxLength(50)]
@@ -21,11 +20,10 @@ namespace SaintReverenceMVC.Data
         public string CustomerMiddleName { get; set; }
         [Required, MaxLength(50)]
         public string CustomerLastName { get; set; }
-        [Required]
         public DateTime CustomerBirthday { get; set; }
-        [Required, MaxLength(50), EmailAddress]
+        [Required, MaxLength(50)]
         public string CustomerEmail { get; set; }
-        [Required, MaxLength(25), Phone]
+        [Required, MaxLength(25)]
         public string CustomerPhone { get; set; }
         [Required, MaxLength(255)]
         public string CustomerAddressLine1 { get; set; }
@@ -41,8 +39,8 @@ namespace SaintReverenceMVC.Data
         public string CustomerAddressPostalCode { get; set; }
         [Required, MaxLength(100)]
         public string CustomerAddressCountry { get; set; }
-        public int? CustomerOrderCount { get; set; }
-        public decimal? CustomerOrderTotal { get; set; }
+        public int CustomerOrderCount { get; set; }
+        public decimal CustomerOrderTotal { get; set; }
 
         public virtual ICollection<Order> Orders { get; set; }
     }

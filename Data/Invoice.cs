@@ -13,8 +13,8 @@ namespace SaintReverenceMVC.Data
         {
             InvoicesProducts = new HashSet<InvoicesProduct>();
         }
-
         [Key]
+
         public Guid InvoiceId { get; set; }
         [Required]
         public decimal CostOfProducts { get; set; }
@@ -30,9 +30,9 @@ namespace SaintReverenceMVC.Data
         public DateTime DueDate { get; set; }
         [Required]
         public bool InvoiceIsPaid { get; set; }
-        public DateTime PaidDate { get; set; }
-        [ForeignKey(nameof(Vendor))]
+        [ForeignKey(nameof(VendorNavigation))]
         public int VendorId { get; set; }
+        public DateTime? PaidDate { get; set; }
 
         public virtual Vendor VendorNavigation { get; set; }
         public virtual ICollection<InvoicesProduct> InvoicesProducts { get; set; }

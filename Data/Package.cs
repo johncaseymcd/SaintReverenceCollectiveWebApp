@@ -13,9 +13,8 @@ namespace SaintReverenceMVC.Data
             Orders = new HashSet<Order>();
             Products = new HashSet<Product>();
         }
-
         [Key]
-        public int PackageId { get; set; }
+        public int PackageID { get; set; }
         [Required, MaxLength(100)]
         public string PackageName { get; set; }
         [Required]

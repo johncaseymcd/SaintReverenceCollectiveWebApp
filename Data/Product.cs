@@ -14,9 +14,8 @@ namespace SaintReverenceMVC.Data
             InvoicesProducts = new HashSet<InvoicesProduct>();
             OrdersProducts = new HashSet<OrdersProduct>();
         }
-
         [Key]
-        public int ProductId { get; set; }
+        public int ProductID { get; set; }
         [Required, MaxLength(100)]
         public string ProductName { get; set; }
         [MaxLength(1000)]
@@ -25,7 +24,7 @@ namespace SaintReverenceMVC.Data
         public decimal ProductBuyCost { get; set; }
         [Required]
         public decimal ProductSellPrice { get; set; }
-        public int? ProductInventoryCount { get; set; }
+        public int ProductInventoryCount { get; set; }
         [Required]
         public int ProductTurnaroundTime { get; set; }
         [Required]
@@ -33,13 +32,13 @@ namespace SaintReverenceMVC.Data
         [Required]
         public bool ProductIsActive { get; set; }
         [ForeignKey(nameof(CategoryNavigation))]
-        public int CategoryId { get; set; }
+        public int CategoryID { get; set; }
         [ForeignKey(nameof(CollectionNavigation))]
-        public int CollectionId { get; set; }
+        public int CollectionID { get; set; }
         [ForeignKey(nameof(PackageNavigation))]
-        public int PackageId { get; set; }
+        public int PackageID { get; set; }
         [ForeignKey(nameof(VendorNavigation))]
-        public int VendorId { get; set; }
+        public int VendorID { get; set; }
 
         public virtual Category CategoryNavigation { get; set; }
         public virtual Collection CollectionNavigation { get; set; }

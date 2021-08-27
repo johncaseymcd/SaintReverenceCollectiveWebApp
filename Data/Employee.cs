@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 #nullable disable
 
@@ -26,7 +27,7 @@ namespace SaintReverenceMVC.Data
         public string EmployeeAddressLine1 { get; set; }
         [MaxLength(255)]
         public string EmployeeAddressLine2 { get; set; }
-        [Required, MaxLength(255)]
+        [MaxLength(255)]
         public string EmployeeAddressLine3 { get; set; }
         [Required, MaxLength(255)]
         public string EmployeeAddressCity { get; set; }
@@ -36,15 +37,15 @@ namespace SaintReverenceMVC.Data
         public string EmployeeAddressPostalCode { get; set; }
         [Required, MaxLength(100)]
         public string EmployeeAddressCountry { get; set; }
-        [Required]
+        [Required, MaxLength(255)]
         public string EmployeeSsnhash { get; set; }
         [Required]
         public decimal EmployeeSalaryPerYear { get; set; }
-        [Required, Range(0, 40)]
+        [Required, Range(0, 41)]
         public int EmployeeHoursPerWeek { get; set; }
         [Required]
         public bool EmployeeIsActive { get; set; }
-        [Required]
+        [ForeignKey(nameof(EmployeePermissionLevelNavigation))]
         public int EmployeePermissionLevel { get; set; }
 
         public virtual Permission EmployeePermissionLevelNavigation { get; set; }

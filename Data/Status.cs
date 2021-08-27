@@ -12,9 +12,8 @@ namespace SaintReverenceMVC.Data
         {
             Orders = new HashSet<Order>();
         }
-        
         [Key]
-        public int StatusId { get; set; }
+        public int StatusID { get; set; }
         [Required, MaxLength(100)]
         public string StatusName { get; set; }
 

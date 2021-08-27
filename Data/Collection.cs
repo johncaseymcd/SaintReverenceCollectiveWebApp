@@ -14,7 +14,7 @@ namespace SaintReverenceMVC.Data
         }
 
         [Key]
-        public int CollectionId { get; set; }
+        public int CollectionID { get; set; }
         [Required, MaxLength(100)]
         public string CollectionName { get; set; }
         [MaxLength(1000)]

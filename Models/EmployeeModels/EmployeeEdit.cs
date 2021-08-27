@@ -1,53 +1,38 @@
-﻿using System;
-using System.Collections.Generic;
+using System;
 using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
 
-#nullable disable
-
-namespace SaintReverenceMVC.Data
+namespace SaintReverenceMVC.Models.EmployeeModels
 {
-    public partial class Employee
+    public class EmployeeEdit
     {
-        [Key]
-        public Guid EmployeeId { get; set; }
-        [Required, MaxLength(50)]
+        public Guid EmployeeID { get; set; }
+        [MaxLength(50)]
         public string EmployeeFirstName { get; set; }
         [MaxLength(50)]
         public string EmployeeMiddleName { get; set; }
-        [Required, MaxLength(50)]
+        [MaxLength(50)]
         public string EmployeeLastName { get; set; }
-        [Required]
-        public DateTime EmployeeBirthday { get; set; }
-        [Required, MaxLength(50), EmailAddress]
+        [MaxLength(50), EmailAddress]
         public string EmployeeEmail { get; set; }
-        [Required, MaxLength(25), Phone]
+        [MaxLength(50), Phone]
         public string EmployeePhone { get; set; }
-        [Required, MaxLength(255)]
+        [MaxLength(255)]
         public string EmployeeAddressLine1 { get; set; }
         [MaxLength(255)]
         public string EmployeeAddressLine2 { get; set; }
         [MaxLength(255)]
         public string EmployeeAddressLine3 { get; set; }
-        [Required, MaxLength(255)]
+        [MaxLength(255)]
         public string EmployeeAddressCity { get; set; }
-        [Required, MaxLength(25)]
+        [MaxLength(25)]
         public string EmployeeAddressStateOrProvince { get; set; }
-        [Required, MaxLength(25)]
+        [MaxLength(25)]
         public string EmployeeAddressPostalCode { get; set; }
-        [Required, MaxLength(100)]
+        [MaxLength(100)]
         public string EmployeeAddressCountry { get; set; }
-        [Required, MaxLength(255)]
-        public string EmployeeSsnhash { get; set; }
-        [Required]
         public decimal EmployeeSalaryPerYear { get; set; }
-        [Required, Range(0, 41)]
         public int EmployeeHoursPerWeek { get; set; }
-        [Required]
         public bool EmployeeIsActive { get; set; }
-        [ForeignKey(nameof(EmployeePermissionLevelNavigation))]
         public int EmployeePermissionLevel { get; set; }
-
-        public virtual Permission EmployeePermissionLevelNavigation { get; set; }
     }
 }

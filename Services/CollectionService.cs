@@ -8,7 +8,6 @@ namespace SaintReverenceMVC.Services
 {
     public class CollectionService
     {
-        // Create
         public bool CreateCollection(CollectionCreate model){
             var entity = new Collection{
                 CollectionName = model.CollectionDescription,
@@ -23,7 +22,6 @@ namespace SaintReverenceMVC.Services
             }
         }
 
-        // Get all Collections
         public IEnumerable<CollectionListItem> GetAllCollections(){
             using (var ctx = new src_backendContext()){
                 var query = ctx.Collections
@@ -37,7 +35,6 @@ namespace SaintReverenceMVC.Services
             }
         }
 
-        // Get Collection by ID
         public CollectionDetail GetCollectionByID(int id){
             using (var ctx = new src_backendContext()){
                 var entity = ctx.Collections.Find(id);
@@ -53,6 +50,7 @@ namespace SaintReverenceMVC.Services
             }
         }
 
+        // Get Collections with end dates within two weeks from current date
         public IEnumerable<CollectionListItem> GetCollectionsEndingSoon(DateTime twoWeeks){
             using (var ctx = new src_backendContext()){
                 var query = ctx.Collections

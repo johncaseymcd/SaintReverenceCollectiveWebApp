@@ -66,6 +66,14 @@ namespace SaintReverenceMVC
                     name: "CollectionDefault",
                     pattern: "{controller=Collection}/{action}/{id?}"
                 );
+                endpoints.MapControllerRoute(
+                    name: "CustomersByBirthday",
+                    pattern: "{controller=Customer}/{action=IndexByBirthday}/{birthday}"
+                );
+                endpoints.MapControllerRoute(
+                    name: "CustomerDefault",
+                    pattern: "{controller=Customer}/{action}/{id?}"
+                );
             });
         }
     }

@@ -86,7 +86,7 @@ namespace SaintReverenceMVC.Data
             {
                 entity.ToTable("Customers", "users");
 
-                entity.Property(e => e.CustomerId)
+                entity.Property(e => e.CustomerID)
                     .HasColumnName("customerID")
                     .HasDefaultValueSql("(newid())");
 
@@ -165,7 +165,7 @@ namespace SaintReverenceMVC.Data
             {
                 entity.ToTable("Employees", "users");
 
-                entity.Property(e => e.EmployeeId)
+                entity.Property(e => e.EmployeeID)
                     .HasColumnName("employeeID")
                     .HasDefaultValueSql("(newid())");
 
@@ -260,7 +260,7 @@ namespace SaintReverenceMVC.Data
             {
                 entity.ToTable("Invoices", "finances");
 
-                entity.Property(e => e.InvoiceId)
+                entity.Property(e => e.InvoiceID)
                     .HasColumnName("invoiceID")
                     .HasDefaultValueSql("(newid())");
 
@@ -292,35 +292,35 @@ namespace SaintReverenceMVC.Data
                     .HasColumnType("money")
                     .HasColumnName("taxPaid");
 
-                entity.Property(e => e.VendorId).HasColumnName("vendorID");
+                entity.Property(e => e.VendorID).HasColumnName("vendorID");
 
                 entity.HasOne(d => d.VendorNavigation)
                     .WithMany(p => p.Invoices)
-                    .HasForeignKey(d => d.VendorId)
+                    .HasForeignKey(d => d.VendorID)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_Invoices_Vendors");
             });
 
             modelBuilder.Entity<InvoicesProduct>(entity =>
             {
-                entity.HasKey(e => new { e.InvoiceId, e.ProductId })
+                entity.HasKey(e => new { e.InvoiceID, e.ProductID })
                     .HasName("PK__Invoices__A0834C185010B855");
 
                 entity.ToTable("InvoicesProducts", "joiner");
 
-                entity.Property(e => e.InvoiceId).HasColumnName("invoiceID");
+                entity.Property(e => e.InvoiceID).HasColumnName("invoiceID");
 
-                entity.Property(e => e.ProductId).HasColumnName("productID");
+                entity.Property(e => e.ProductID).HasColumnName("productID");
 
-                entity.HasOne(d => d.Invoice)
+                entity.HasOne(d => d.InvoiceNavigation)
                     .WithMany(p => p.InvoicesProducts)
-                    .HasForeignKey(d => d.InvoiceId)
+                    .HasForeignKey(d => d.InvoiceID)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_InvoicesProducts_Invoices");
 
-                entity.HasOne(d => d.Product)
+                entity.HasOne(d => d.ProductNavigation)
                     .WithMany(p => p.InvoicesProducts)
-                    .HasForeignKey(d => d.ProductId)
+                    .HasForeignKey(d => d.ProductID)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_InvoicesProducts_Products");
             });
@@ -370,24 +370,24 @@ namespace SaintReverenceMVC.Data
 
             modelBuilder.Entity<OrdersProduct>(entity =>
             {
-                entity.HasKey(e => new { e.OrderId, e.ProductId })
+                entity.HasKey(e => new { e.OrderID, e.ProductID })
                     .HasName("PK__OrdersPr__BAD83E69C1087E8C");
 
                 entity.ToTable("OrdersProducts", "joiner");
 
-                entity.Property(e => e.OrderId).HasColumnName("orderID");
+                entity.Property(e => e.OrderID).HasColumnName("orderID");
 
-                entity.Property(e => e.ProductId).HasColumnName("productID");
+                entity.Property(e => e.ProductID).HasColumnName("productID");
 
-                entity.HasOne(d => d.Order)
+                entity.HasOne(d => d.OrderNavigation)
                     .WithMany(p => p.OrdersProducts)
-                    .HasForeignKey(d => d.OrderId)
+                    .HasForeignKey(d => d.OrderID)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_OrdersProducts_Orders");
 
-                entity.HasOne(d => d.Product)
+                entity.HasOne(d => d.ProductNavigation)
                     .WithMany(p => p.OrdersProducts)
-                    .HasForeignKey(d => d.ProductId)
+                    .HasForeignKey(d => d.ProductID)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_OrdersProducts_Products");
             });

@@ -47,7 +47,7 @@ namespace SaintReverenceMVC.Data
             {
                 entity.ToTable("Categories", "products");
 
-                entity.Property(e => e.CategoryId).HasColumnName("categoryID");
+                entity.Property(e => e.CategoryID).HasColumnName("categoryID");
 
                 entity.Property(e => e.CategoryName)
                     .IsRequired()
@@ -60,7 +60,7 @@ namespace SaintReverenceMVC.Data
             {
                 entity.ToTable("Collections", "products");
 
-                entity.Property(e => e.CollectionId).HasColumnName("collectionID");
+                entity.Property(e => e.CollectionID).HasColumnName("collectionID");
 
                 entity.Property(e => e.CollectionDescription)
                     .HasMaxLength(1000)
@@ -294,7 +294,7 @@ namespace SaintReverenceMVC.Data
 
                 entity.Property(e => e.VendorId).HasColumnName("vendorID");
 
-                entity.HasOne(d => d.Vendor)
+                entity.HasOne(d => d.VendorNavigation)
                     .WithMany(p => p.Invoices)
                     .HasForeignKey(d => d.VendorId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
@@ -329,11 +329,11 @@ namespace SaintReverenceMVC.Data
             {
                 entity.ToTable("Orders", "finances");
 
-                entity.Property(e => e.OrderId)
+                entity.Property(e => e.OrderID)
                     .HasColumnName("orderID")
                     .HasDefaultValueSql("(newid())");
 
-                entity.Property(e => e.CustomerId).HasColumnName("customerID");
+                entity.Property(e => e.CustomerID).HasColumnName("customerID");
 
                 entity.Property(e => e.OrderDate)
                     .HasColumnType("datetime")
@@ -343,15 +343,15 @@ namespace SaintReverenceMVC.Data
 
                 entity.Property(e => e.OrderTotal).HasColumnType("money");
 
-                entity.Property(e => e.PackageId).HasColumnName("packageID");
+                entity.Property(e => e.PackageID).HasColumnName("packageID");
 
                 entity.Property(e => e.ShippedDate)
                     .HasColumnType("datetime")
                     .HasColumnName("shippedDate");
 
-                entity.HasOne(d => d.Customer)
+                entity.HasOne(d => d.CustomerNavigation)
                     .WithMany(p => p.Orders)
-                    .HasForeignKey(d => d.CustomerId)
+                    .HasForeignKey(d => d.CustomerID)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_Orders_Customers");
 
@@ -361,9 +361,9 @@ namespace SaintReverenceMVC.Data
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_Orders_Statuses");
 
-                entity.HasOne(d => d.Package)
+                entity.HasOne(d => d.PackageNavigation)
                     .WithMany(p => p.Orders)
-                    .HasForeignKey(d => d.PackageId)
+                    .HasForeignKey(d => d.PackageID)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_Orders_Package");
             });
@@ -396,7 +396,7 @@ namespace SaintReverenceMVC.Data
             {
                 entity.ToTable("Packages", "products");
 
-                entity.Property(e => e.PackageId).HasColumnName("packageID");
+                entity.Property(e => e.PackageID).HasColumnName("packageID");
 
                 entity.Property(e => e.PackageCostToShip)
                     .HasColumnType("money")
@@ -445,13 +445,13 @@ namespace SaintReverenceMVC.Data
             {
                 entity.ToTable("Products", "products");
 
-                entity.Property(e => e.ProductId).HasColumnName("productID");
+                entity.Property(e => e.ProductID).HasColumnName("productID");
 
-                entity.Property(e => e.CategoryId).HasColumnName("categoryID");
+                entity.Property(e => e.CategoryID).HasColumnName("categoryID");
 
-                entity.Property(e => e.CollectionId).HasColumnName("collectionID");
+                entity.Property(e => e.CollectionID).HasColumnName("collectionID");
 
-                entity.Property(e => e.PackageId).HasColumnName("packageID");
+                entity.Property(e => e.PackageID).HasColumnName("packageID");
 
                 entity.Property(e => e.ProductBuyCost)
                     .HasColumnType("money")
@@ -482,29 +482,29 @@ namespace SaintReverenceMVC.Data
                     .HasColumnType("numeric(18, 0)")
                     .HasColumnName("productWeightInGrams");
 
-                entity.Property(e => e.VendorId).HasColumnName("vendorID");
+                entity.Property(e => e.VendorID).HasColumnName("vendorID");
 
-                entity.HasOne(d => d.Category)
+                entity.HasOne(d => d.CategoryNavigation)
                     .WithMany(p => p.Products)
-                    .HasForeignKey(d => d.CategoryId)
+                    .HasForeignKey(d => d.CategoryID)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_Products_Categories");
 
-                entity.HasOne(d => d.Collection)
+                entity.HasOne(d => d.CollectionNavigation)
                     .WithMany(p => p.Products)
-                    .HasForeignKey(d => d.CollectionId)
+                    .HasForeignKey(d => d.CollectionID)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_Products_Collections");
 
-                entity.HasOne(d => d.Package)
+                entity.HasOne(d => d.PackageNavigation)
                     .WithMany(p => p.Products)
-                    .HasForeignKey(d => d.PackageId)
+                    .HasForeignKey(d => d.PackageID)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_Products_Packages");
 
-                entity.HasOne(d => d.Vendor)
+                entity.HasOne(d => d.VendorNavigation)
                     .WithMany(p => p.Products)
-                    .HasForeignKey(d => d.VendorId)
+                    .HasForeignKey(d => d.VendorID)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_Products_Vendors");
             });
@@ -513,7 +513,7 @@ namespace SaintReverenceMVC.Data
             {
                 entity.ToTable("Statuses", "helper");
 
-                entity.Property(e => e.StatusId).HasColumnName("statusID");
+                entity.Property(e => e.StatusID).HasColumnName("statusID");
 
                 entity.Property(e => e.StatusName)
                     .IsRequired()
@@ -526,7 +526,7 @@ namespace SaintReverenceMVC.Data
             {
                 entity.ToTable("Vendors", "products");
 
-                entity.Property(e => e.VendorId).HasColumnName("vendorID");
+                entity.Property(e => e.VendorID).HasColumnName("vendorID");
 
                 entity.Property(e => e.VendorAddressCity)
                     .HasMaxLength(255)

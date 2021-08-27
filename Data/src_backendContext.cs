@@ -45,7 +45,7 @@ namespace SaintReverenceMVC.Data
             {
                 entity.ToTable("Categories", "products");
 
-                entity.Property(e => e.CategoryId).HasColumnName("categoryID");
+                entity.Property(e => e.CategoryID).HasColumnName("categoryID");
 
                 entity.Property(e => e.CategoryName)
                     .IsRequired()

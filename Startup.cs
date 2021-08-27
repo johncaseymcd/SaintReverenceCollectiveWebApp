@@ -55,8 +55,17 @@ namespace SaintReverenceMVC
             {
                 endpoints.MapControllerRoute(
                     name: "default",
-                    pattern: "{controller=Home}/{action=Index}/{id?}");
+                    pattern: "{controller=Home}/{action=Index}/{id?}"
+                );
                 endpoints.MapBlazorHub();
+                endpoints.MapControllerRoute(
+                    name: "CollectionsEndingSoon",
+                    pattern: "{controller=Collection}/{action=IndexByEndDate}/{twoWeeks}"
+                );
+                endpoints.MapControllerRoute(
+                    name: "CollectionDefault",
+                    pattern: "{controller=Collection}/{action}/{id?}"
+                );
             });
         }
     }

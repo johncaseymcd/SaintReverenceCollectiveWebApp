@@ -10,7 +10,7 @@ namespace SaintReverenceMVC.Data
     public partial class Employee
     {
         [Key]
-        public Guid EmployeeId { get; set; }
+        public Guid EmployeeID { get; set; }
         [Required, MaxLength(50)]
         public string EmployeeFirstName { get; set; }
         [MaxLength(50)]

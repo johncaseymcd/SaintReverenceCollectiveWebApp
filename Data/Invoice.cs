@@ -15,7 +15,7 @@ namespace SaintReverenceMVC.Data
         }
         [Key]
 
-        public Guid InvoiceId { get; set; }
+        public Guid InvoiceID { get; set; }
         [Required]
         public decimal CostOfProducts { get; set; }
         [Required]
@@ -31,7 +31,7 @@ namespace SaintReverenceMVC.Data
         [Required]
         public bool InvoiceIsPaid { get; set; }
         [ForeignKey(nameof(VendorNavigation))]
-        public int VendorId { get; set; }
+        public int VendorID { get; set; }
         public DateTime? PaidDate { get; set; }
 
         public virtual Vendor VendorNavigation { get; set; }

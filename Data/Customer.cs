@@ -13,7 +13,7 @@ namespace SaintReverenceMVC.Data
             Orders = new HashSet<Order>();
         }
         [Key]
-        public Guid CustomerId { get; set; }
+        public Guid CustomerID { get; set; }
         [Required, MaxLength(50)]
         public string CustomerFirstName { get; set; }
         [MaxLength(50)]

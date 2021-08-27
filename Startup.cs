@@ -86,7 +86,18 @@ namespace SaintReverenceMVC
                     name: "EmployeeDefault",
                     pattern: "{controller=Employee}/{action}/{id?}"
                 );
-                
+                endpoints.MapControllerRoute(
+                    name: "InvoicesByPastDue",
+                    pattern: "{controller=Invoice}/{action=IndexByPastDue}/{currentDate}"
+                );
+                endpoints.MapControllerRoute(
+                    name: "InvoicesDueSoon",
+                    pattern: "{controller=Invoice}/{action=IndexByDueSoon}/{twoWeeks}"
+                );
+                endpoints.MapControllerRoute(
+                    name: "InvoiceDefault",
+                    pattern: "{controller=Invoice}/{action}/{id?}"
+                );
             });
         }
     }

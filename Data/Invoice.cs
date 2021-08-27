@@ -32,7 +32,7 @@ namespace SaintReverenceMVC.Data
         public bool InvoiceIsPaid { get; set; }
         [ForeignKey(nameof(VendorNavigation))]
         public int VendorID { get; set; }
-        public DateTime? PaidDate { get; set; }
+        public DateTime PaidDate { get; set; }
 
         public virtual Vendor VendorNavigation { get; set; }
         public virtual ICollection<InvoicesProduct> InvoicesProducts { get; set; }

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 #nullable disable
 
@@ -11,8 +12,9 @@ namespace SaintReverenceMVC.Data
         {
             Orders = new HashSet<Order>();
         }
-
-        public int StatusId { get; set; }
+        [Key]
+        public int StatusID { get; set; }
+        [Required, MaxLength(100)]
         public string StatusName { get; set; }
 
         public virtual ICollection<Order> Orders { get; set; }

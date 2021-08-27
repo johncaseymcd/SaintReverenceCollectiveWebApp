@@ -282,6 +282,8 @@ namespace SaintReverenceMVC.Data
 
                 entity.Property(e => e.InvoiceIsPaid).HasColumnName("invoiceIsPaid");
 
+                entity.Property(e => e.PaidDate).HasColumnType("datetime");
+
                 entity.Property(e => e.ShippingPaid)
                     .HasColumnType("money")
                     .HasColumnName("shippingPaid");
@@ -338,6 +340,8 @@ namespace SaintReverenceMVC.Data
                     .HasColumnName("orderDate");
 
                 entity.Property(e => e.OrderStatus).HasColumnName("orderStatus");
+
+                entity.Property(e => e.OrderTotal).HasColumnType("money");
 
                 entity.Property(e => e.PackageId).HasColumnName("packageID");
 
@@ -524,11 +528,58 @@ namespace SaintReverenceMVC.Data
 
                 entity.Property(e => e.VendorId).HasColumnName("vendorID");
 
+                entity.Property(e => e.VendorAddressCity)
+                    .HasMaxLength(255)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.VendorAddressCountry)
+                    .IsRequired()
+                    .HasMaxLength(100)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.VendorAddressLine1)
+                    .IsRequired()
+                    .HasMaxLength(255)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.VendorAddressLine2)
+                    .HasMaxLength(255)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.VendorAddressLine3)
+                    .HasMaxLength(255)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.VendorAddressPostalcode)
+                    .IsRequired()
+                    .HasMaxLength(25)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.VendorAddressStateOrProvince)
+                    .IsRequired()
+                    .HasMaxLength(25)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.VendorEmail)
+                    .IsRequired()
+                    .HasMaxLength(50)
+                    .IsUnicode(false);
+
                 entity.Property(e => e.VendorName)
                     .IsRequired()
                     .HasMaxLength(100)
                     .IsUnicode(false)
                     .HasColumnName("vendorName");
+
+                entity.Property(e => e.VendorPhone)
+                    .IsRequired()
+                    .HasMaxLength(25)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.VendorWebsite)
+                    .IsRequired()
+                    .HasMaxLength(50)
+                    .IsUnicode(false);
             });
 
             OnModelCreatingPartial(modelBuilder);

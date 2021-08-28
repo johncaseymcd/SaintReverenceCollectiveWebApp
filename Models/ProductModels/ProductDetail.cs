@@ -12,5 +12,6 @@ namespace SaintReverenceMVC.Models.ProductModels
         public bool ProductIsActive { get; set; }
         public int CategoryID { get; set; }
         public int CollectionID { get; set; }
+        public int VendorID { get; set; }
     }
 }

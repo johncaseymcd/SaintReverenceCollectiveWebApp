@@ -130,7 +130,10 @@ namespace SaintReverenceMVC
                     name: "ProductDefault",
                     pattern: "{controller=Product}/{action}/{id?}"
                 );
-                
+                endpoints.MapControllerRoute(
+                    name: "VendorDefault",
+                    pattern: "{controller=Vendor}/{action}/{id?}"
+                );
             });
         }
     }

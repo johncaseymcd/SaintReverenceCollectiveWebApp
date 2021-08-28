@@ -31,6 +31,7 @@ namespace SaintReverenceMVC.Services
             using (var ctx = new src_backendContext()){
                 var query = ctx.Invoices
                     .Select(ili => new InvoiceListItem{
+                        InvoiceID = ili.InvoiceID,
                         TotalCost = ili.CostOfProducts + ili.TaxPaid + ili.ShippingPaid + ili.AdditionalFees,
                         DueDate = ili.DueDate,
                         InvoiceIsPaid = ili.InvoiceIsPaid,
@@ -64,6 +65,7 @@ namespace SaintReverenceMVC.Services
                 var query = ctx.Invoices
                     .Where(i => i.InvoiceIsPaid == status)
                     .Select(ili => new InvoiceListItem{
+                        InvoiceID = ili.InvoiceID,
                         TotalCost = ili.CostOfProducts + ili.TaxPaid + ili.ShippingPaid + ili.AdditionalFees,
                         DueDate = ili.DueDate,
                         InvoiceIsPaid = ili.InvoiceIsPaid,
@@ -80,6 +82,7 @@ namespace SaintReverenceMVC.Services
                 var query = ctx.Invoices
                     .Where(i => i.DueDate <= twoWeeks)
                     .Select(ili => new InvoiceListItem{
+                        InvoiceID = ili.InvoiceID,
                         TotalCost = ili.CostOfProducts + ili.TaxPaid + ili.ShippingPaid + ili.AdditionalFees,
                         DueDate = ili.DueDate,
                         InvoiceIsPaid = ili.InvoiceIsPaid,
@@ -96,6 +99,7 @@ namespace SaintReverenceMVC.Services
                 var query = ctx.Invoices
                     .Where(i => i.DueDate <= currentDate && i.InvoiceIsPaid == false)
                     .Select(ili => new InvoiceListItem{
+                        InvoiceID = ili.InvoiceID,
                         TotalCost = ili.CostOfProducts + ili.TaxPaid + ili.ShippingPaid + ili.AdditionalFees,
                         DueDate = ili.DueDate,
                         InvoiceIsPaid = ili.InvoiceIsPaid,
@@ -112,6 +116,7 @@ namespace SaintReverenceMVC.Services
                 var query = ctx.Invoices
                     .Where(i => i.VendorID == id)
                     .Select(ili => new InvoiceListItem{
+                        InvoiceID = ili.InvoiceID,
                         TotalCost = ili.CostOfProducts + ili.TaxPaid + ili.ShippingPaid + ili.AdditionalFees,
                         DueDate = ili.DueDate,
                         InvoiceIsPaid = ili.InvoiceIsPaid,

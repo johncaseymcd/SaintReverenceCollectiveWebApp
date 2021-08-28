@@ -98,6 +98,19 @@ namespace SaintReverenceMVC
                     name: "InvoiceDefault",
                     pattern: "{controller=Invoice}/{action}/{id?}"
                 );
+                endpoints.MapControllerRoute(
+                    name: "OrdersByStatus",
+                    pattern: "{controller=Order}/{action=IndexByOrderStatus}/{orderStatus}"
+                );
+                endpoints.MapControllerRoute(
+                    name: "OrdersByDate",
+                    pattern: "{controller=Order}/{action=IndexByOrderDate}/{orderDate}"
+                );
+                endpoints.MapControllerRoute(
+                    name: "OrderDefault",
+                    pattern: "{controller=Order}/{action}/{id?"
+                );
+                
             });
         }
     }

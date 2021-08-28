@@ -31,6 +31,7 @@ namespace SaintReverenceMVC.Services{
             using (var ctx = new src_backendContext()){
                 var query = ctx.Orders
                     .Select(oli => new OrderListItem{
+                        OrderID = oli.OrderID,
                         OrderDate = oli.OrderDate,
                         OrderStatus = oli.OrderStatus,
                         OrderTotal = oli.OrderTotal,
@@ -47,10 +48,11 @@ namespace SaintReverenceMVC.Services{
                     var query = ctx.Orders
                         .Where(o => o.CustomerID == _userID)
                         .Select(oli => new OrderListItem{
+                            OrderID = oli.OrderID,
                             OrderDate = oli.OrderDate,
-                        OrderStatus = oli.OrderStatus,
-                        OrderTotal = oli.OrderTotal,
-                        CustomerID = oli.CustomerID
+                            OrderStatus = oli.OrderStatus,
+                            OrderTotal = oli.OrderTotal,
+                            CustomerID = oli.CustomerID
                         });
 
                     return query.ToList().OrderBy(o => o.OrderDate).ThenBy(o => o.OrderStatus);
@@ -64,6 +66,7 @@ namespace SaintReverenceMVC.Services{
                 var entity = ctx.Orders.Find(id);
 
                 return new OrderDetail{
+                    OrderID = entity.OrderID,
                     OrderDate = entity.OrderDate,
                     ShippedDate = entity.ShippedDate,
                     OrderTotal = entity.OrderTotal,
@@ -79,6 +82,7 @@ namespace SaintReverenceMVC.Services{
                 var query = ctx.Orders
                     .Where(o => o.OrderStatus == orderStatus)
                     .Select(oli => new OrderListItem{
+                        OrderID = oli.OrderID,
                         OrderDate = oli.OrderDate,
                         OrderStatus = oli.OrderStatus,
                         OrderTotal = oli.OrderTotal,
@@ -94,6 +98,7 @@ namespace SaintReverenceMVC.Services{
                 var query = ctx.Orders
                     .Where(o => o.OrderDate == orderDate)
                     .Select(oli => new OrderListItem{
+                        OrderID = oli.OrderID,
                         OrderDate = oli.OrderDate,
                         OrderStatus = oli.OrderStatus,
                         OrderTotal = oli.OrderTotal,

@@ -40,6 +40,7 @@ namespace SaintReverenceMVC.Services
             using (var ctx = new src_backendContext()){
                 var query = ctx.Customers
                     .Select(cli => new CustomerListItem{
+                        CustomerID = cli.CustomerID,
                         CustomerName = cli.CustomerFirstName + " " + cli.CustomerMiddleName + " " + cli.CustomerLastName,
                         CustomerBirthday = cli.CustomerBirthday,
                         CustomerEmail = cli.CustomerEmail,
@@ -60,6 +61,7 @@ namespace SaintReverenceMVC.Services
                 }
 
                 return new CustomerDetail{
+                    CustomerID = entity.CustomerID,
                     CustomerName = entity.CustomerFirstName + " " + entity.CustomerMiddleName + " " + entity.CustomerLastName,
                     CustomerBirthday = entity.CustomerBirthday,
                     CustomerEmail = entity.CustomerEmail,
@@ -76,6 +78,7 @@ namespace SaintReverenceMVC.Services
                 var query = ctx.Customers
                     .Where(c => c.CustomerBirthday == birthday)
                     .Select(cli => new CustomerListItem{
+                        CustomerID = cli.CustomerID,
                         CustomerName = cli.CustomerFirstName + " " + cli.CustomerMiddleName + " " + cli.CustomerLastName,
                         CustomerBirthday = cli.CustomerBirthday,
                         CustomerEmail = cli.CustomerEmail,
@@ -92,6 +95,7 @@ namespace SaintReverenceMVC.Services
                 var query = ctx.Customers
                     .Where(c => c.CustomerOrderTotal > 1000.00m)
                     .Select(cli => new CustomerListItem{
+                        CustomerID = cli.CustomerID,
                         CustomerName = cli.CustomerFirstName + " " + cli.CustomerMiddleName + " " + cli.CustomerLastName,
                         CustomerBirthday = cli.CustomerBirthday,
                         CustomerEmail = cli.CustomerEmail,

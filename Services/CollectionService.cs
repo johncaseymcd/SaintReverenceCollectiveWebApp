@@ -26,6 +26,7 @@ namespace SaintReverenceMVC.Services
             using (var ctx = new src_backendContext()){
                 var query = ctx.Collections
                     .Select(cli => new CollectionListItem{
+                        CollectionID = cli.CollectionID,
                         CollectionName = cli.CollectionName,
                         PublishDate = cli.PublishDate,
                         EndDate = cli.EndDate
@@ -56,6 +57,7 @@ namespace SaintReverenceMVC.Services
                 var query = ctx.Collections
                     .Where(c => c.EndDate <= twoWeeks)
                     .Select(cli => new CollectionListItem{
+                        CollectionID = cli.CollectionID,
                         CollectionName = cli.CollectionName,
                         PublishDate = cli.PublishDate, 
                         EndDate = cli.EndDate
@@ -68,7 +70,7 @@ namespace SaintReverenceMVC.Services
         public bool UpdateCollection(CollectionEdit model){
             using (var ctx = new src_backendContext()){
                 var entity = ctx.Collections.Find(model.CollectionID);
-
+                
                 entity.CollectionName = model.CollectionName;
                 entity.CollectionDescription = model.CollectionDescription;
                 entity.PublishDate = model.PublishDate;

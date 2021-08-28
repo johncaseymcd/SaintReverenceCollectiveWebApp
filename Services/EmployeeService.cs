@@ -45,6 +45,7 @@ namespace SaintReverenceMVC.Services
             using (var ctx = new src_backendContext()){
                 var query = ctx.Employees
                     .Select(eli => new EmployeeListItem{
+                        EmployeeID = eli.EmployeeID,
                         EmployeeName = eli.EmployeeFirstName + " " + eli.EmployeeMiddleName + " " + eli.EmployeeLastName,
                         EmployeeBirthday = eli.EmployeeBirthday,
                         EmployeeEmail = eli.EmployeeEmail,
@@ -83,6 +84,7 @@ namespace SaintReverenceMVC.Services
                 var query = ctx.Employees
                     .Where(e => e.EmployeeBirthday == birthday)
                     .Select(eli => new EmployeeListItem{
+                        EmployeeID = eli.EmployeeID,
                         EmployeeName = eli.EmployeeFirstName + " " + eli.EmployeeMiddleName + " " + eli.EmployeeLastName,
                         EmployeeBirthday = eli.EmployeeBirthday,
                         EmployeeEmail = eli.EmployeeEmail,
@@ -102,6 +104,7 @@ namespace SaintReverenceMVC.Services
                 var query = ctx.Employees
                     .Where(e => e.EmployeeIsActive == status)
                     .Select(eli => new EmployeeListItem{
+                        EmployeeID = eli.EmployeeID,
                         EmployeeName = eli.EmployeeFirstName + " " + eli.EmployeeMiddleName + " " + eli.EmployeeLastName,
                         EmployeeBirthday = eli.EmployeeBirthday,
                         EmployeeEmail = eli.EmployeeEmail,
@@ -121,6 +124,7 @@ namespace SaintReverenceMVC.Services
                 var query = ctx.Employees
                     .Where(e => e.EmployeePermissionLevel == level)
                     .Select(eli => new EmployeeListItem{
+                        EmployeeID = eli.EmployeeID,
                         EmployeeName = eli.EmployeeFirstName + " " + eli.EmployeeMiddleName + " " + eli.EmployeeLastName,
                         EmployeeBirthday = eli.EmployeeBirthday,
                         EmployeeEmail = eli.EmployeeEmail,

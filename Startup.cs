@@ -55,8 +55,85 @@ namespace SaintReverenceMVC
             {
                 endpoints.MapControllerRoute(
                     name: "default",
-                    pattern: "{controller=Home}/{action=Index}/{id?}");
+                    pattern: "{controller=Home}/{action=Index}/{id?}"
+                );
                 endpoints.MapBlazorHub();
+                endpoints.MapControllerRoute(
+                    name: "CollectionsEndingSoon",
+                    pattern: "{controller=Collection}/{action=IndexByEndDate}/{twoWeeks}"
+                );
+                endpoints.MapControllerRoute(
+                    name: "CollectionDefault",
+                    pattern: "{controller=Collection}/{action}/{id?}"
+                );
+                endpoints.MapControllerRoute(
+                    name: "Birthday",
+                    pattern: "{controller}/{action=IndexByBirthday}/{birthday}"
+                );
+                endpoints.MapControllerRoute(
+                    name: "CustomerDefault",
+                    pattern: "{controller=Customer}/{action}/{id?}"
+                );
+                endpoints.MapControllerRoute(
+                    name: "ActiveStatus",
+                    pattern: "{controller}/{action=IndexByStatus}/{status}"
+                );
+                endpoints.MapControllerRoute(
+                    name: "EmployeesByPermissionLevel",
+                    pattern: "{controller=Employee}/{action=IndexByPermissionLevel/{level}"
+                );
+                endpoints.MapControllerRoute(
+                    name: "EmployeeDefault",
+                    pattern: "{controller=Employee}/{action}/{id?}"
+                );
+                endpoints.MapControllerRoute(
+                    name: "InvoicesByPastDue",
+                    pattern: "{controller=Invoice}/{action=IndexByPastDue}/{currentDate}"
+                );
+                endpoints.MapControllerRoute(
+                    name: "InvoicesDueSoon",
+                    pattern: "{controller=Invoice}/{action=IndexByDueSoon}/{twoWeeks}"
+                );
+                endpoints.MapControllerRoute(
+                    name: "InvoiceDefault",
+                    pattern: "{controller=Invoice}/{action}/{id?}"
+                );
+                endpoints.MapControllerRoute(
+                    name: "OrdersByStatus",
+                    pattern: "{controller=Order}/{action=IndexByOrderStatus}/{orderStatus}"
+                );
+                endpoints.MapControllerRoute(
+                    name: "OrdersByDate",
+                    pattern: "{controller=Order}/{action=IndexByOrderDate}/{orderDate}"
+                );
+                endpoints.MapControllerRoute(
+                    name: "OrderDefault",
+                    pattern: "{controller=Order}/{action}/{id?"
+                );
+                endpoints.MapControllerRoute(
+                    name: "PackageDefault",
+                    pattern: "{controller=Package}/{action}/{id?}"
+                );
+                endpoints.MapControllerRoute(
+                    name: "ProductsInStock",
+                    pattern: "{controller=Product}/{action=IndexByInStock}"
+                );
+                endpoints.MapControllerRoute(
+                    name: "ProductsByCatgeory",
+                    pattern: "{controller=Product}/{action=IndexByCategory}/{categoryID}"
+                );
+                endpoints.MapControllerRoute(
+                    name: "ProductsByCollection",
+                    pattern: "{controller=Product}/{action=IndexByCollection}/{collectionID}"
+                );
+                endpoints.MapControllerRoute(
+                    name: "ProductDefault",
+                    pattern: "{controller=Product}/{action}/{id?}"
+                );
+                endpoints.MapControllerRoute(
+                    name: "VendorDefault",
+                    pattern: "{controller=Vendor}/{action}/{id?}"
+                );
             });
         }
     }

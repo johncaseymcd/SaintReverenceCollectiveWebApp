@@ -19,8 +19,8 @@ namespace SaintReverenceMVC.Data
         public string CollectionName { get; set; }
         [MaxLength(1000)]
         public string CollectionDescription { get; set; }
-        public DateTime? PublishDate { get; set; }
-        public DateTime? EndDate { get; set; }
+        public DateTime PublishDate { get; set; }
+        public DateTime EndDate { get; set; }
 
         public virtual ICollection<Product> Products { get; set; }
     }

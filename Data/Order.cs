@@ -17,7 +17,7 @@ namespace SaintReverenceMVC.Data
         public Guid OrderID { get; set; }
         [Required]
         public DateTime OrderDate { get; set; }
-        public DateTime? ShippedDate { get; set; }
+        public DateTime ShippedDate { get; set; }
         [ForeignKey(nameof(OrderStatusNavigation))]
         public int OrderStatus { get; set; }
         [ForeignKey(nameof(CustomerNavigation))]
@@ -25,6 +25,7 @@ namespace SaintReverenceMVC.Data
         [ForeignKey(nameof(PackageNavigation))]
         public int PackageID { get; set; }
         public decimal OrderTotal { get; set; }
+        public List<Product> Products { get; set; }
 
         public virtual Customer CustomerNavigation { get; set; }
         public virtual Status OrderStatusNavigation { get; set; }

@@ -10,7 +10,7 @@ namespace SaintReverenceMVC.Data
     public partial class Employee
     {
         [Key]
-        public Guid EmployeeId { get; set; }
+        public Guid EmployeeID { get; set; }
         [Required, MaxLength(50)]
         public string EmployeeFirstName { get; set; }
         [MaxLength(50)]
@@ -38,7 +38,7 @@ namespace SaintReverenceMVC.Data
         [Required, MaxLength(100)]
         public string EmployeeAddressCountry { get; set; }
         [Required, MaxLength(255)]
-        public string EmployeeSsnhash { get; set; }
+        public string EmployeeSSNHash { get; set; }
         [Required]
         public decimal EmployeeSalaryPerYear { get; set; }
         [Required, Range(0, 41)]

@@ -27,6 +27,8 @@ namespace SaintReverenceMVC.Models.CustomerModels
         public string CustomerAddressCity { get; set; }
         [Required, MaxLength(25)]
         public string CustomerAddressStateOrProvince { get; set; }
+        [Required, MaxLength(25)]
+        public string CustomerAddressPostalCode { get; set; }
         [Required, MaxLength(100)]
         public string CustomerAddressCountry { get; set; }
     }

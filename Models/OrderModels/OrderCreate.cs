@@ -1,5 +1,7 @@
 using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using SaintReverenceMVC.Data;
 
 namespace SaintReverenceMVC.Models.OrderModels
 {
@@ -15,5 +17,7 @@ namespace SaintReverenceMVC.Models.OrderModels
         public Guid CustomerID { get; set; }
         [Required]
         public int PackageID { get; set; }
+        [Required]
+        public List<Product> Products { get; set; }
     }
 }

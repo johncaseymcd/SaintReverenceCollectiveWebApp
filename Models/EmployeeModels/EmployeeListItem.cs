@@ -4,6 +4,7 @@ namespace SaintReverenceMVC.Models.EmployeeModels
 {
     public class EmployeeListItem
     {
+        public Guid EmployeeID { get; set; }
         public string EmployeeName { get; set; }
         public DateTime EmployeeBirthday { get; set; }
         public string EmployeeEmail { get; set; }

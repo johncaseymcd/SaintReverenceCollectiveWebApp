@@ -137,6 +137,21 @@ namespace SaintReverenceMVC.Services{
             }
         }
 
+        public bool AddProductToOrder(int productID, Guid orderID){
+            using (var ctx = new src_backendContext()){
+                var order = ctx.Orders.Find(orderID);
+                if (order is null) order = new Order();
+                var product = ctx.Products.Find(productID);
+                if (product != null){
+                    order.Products.Add(product);
+                    return true;
+                }
+                else{
+                    return false;
+                }
+            }
+        }
+
         public bool UpdateProduct(ProductEdit model){
             using (var ctx = new src_backendContext()){
                 var entity = ctx.Products.Find(model.ProductID);

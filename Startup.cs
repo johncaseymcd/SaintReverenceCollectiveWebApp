@@ -60,7 +60,7 @@ namespace SaintReverenceMVC
                 endpoints.MapBlazorHub();
                 endpoints.MapControllerRoute(
                     name: "CollectionsEndingSoon",
-                    pattern: "{controller=Collection}/{action=IndexByEndDate}/{twoWeeks}"
+                    pattern: "{controller=Collection}/{action=IndexByEndDate}"
                 );
                 endpoints.MapControllerRoute(
                     name: "CollectionDefault",
@@ -69,6 +69,10 @@ namespace SaintReverenceMVC
                 endpoints.MapControllerRoute(
                     name: "Birthday",
                     pattern: "{controller}/{action=IndexByBirthday}/{birthday}"
+                );
+                endpoints.MapControllerRoute(
+                    name: "VIP",
+                    pattern: "{controller=Customer}/{action=IndexByVIP}"
                 );
                 endpoints.MapControllerRoute(
                     name: "CustomerDefault",

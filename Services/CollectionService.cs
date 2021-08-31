@@ -52,8 +52,9 @@ namespace SaintReverenceMVC.Services
         }
 
         // Get Collections with end dates within two weeks from current date
-        public IEnumerable<CollectionListItem> GetCollectionsEndingSoon(DateTime twoWeeks){
+        public IEnumerable<CollectionListItem> GetCollectionsEndingSoon(){
             using (var ctx = new src_backendContext()){
+                DateTime twoWeeks = DateTime.Now.AddDays(14);
                 var query = ctx.Collections
                     .Where(c => c.EndDate <= twoWeeks)
                     .Select(cli => new CollectionListItem{

@@ -91,7 +91,7 @@ namespace SaintReverenceMVC.Controllers{
         public IActionResult DeleteCollection(int id){
             var svc = new CollectionService();
             svc.DeleteCollection(id);
-            TempData["SaveResult"] = "Collection has been successfully removed!";
+            TempData["SaveResult"] = "Collection has been successfully deleted!";
             return Redirect(nameof(Index));
         }
     }

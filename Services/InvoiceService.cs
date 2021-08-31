@@ -77,8 +77,9 @@ namespace SaintReverenceMVC.Services
             }
         }
 
-        public IEnumerable<InvoiceListItem> GetInvoicesDueSoon(DateTime twoWeeks){
+        public IEnumerable<InvoiceListItem> GetInvoicesDueSoon(){
             using (var ctx = new src_backendContext()){
+                var twoWeeks = DateTime.Now.AddDays(14);
                 var query = ctx.Invoices
                     .Where(i => i.DueDate <= twoWeeks)
                     .Select(ili => new InvoiceListItem{
@@ -94,10 +95,10 @@ namespace SaintReverenceMVC.Services
             }
         }
 
-        public IEnumerable<InvoiceListItem> GetOverdueInvoices(DateTime currentDate){
+        public IEnumerable<InvoiceListItem> GetOverdueInvoices(){
             using (var ctx = new src_backendContext()){
                 var query = ctx.Invoices
-                    .Where(i => i.DueDate <= currentDate && i.InvoiceIsPaid == false)
+                    .Where(i => i.DueDate <= DateTime.Now && i.InvoiceIsPaid == false)
                     .Select(ili => new InvoiceListItem{
                         InvoiceID = ili.InvoiceID,
                         TotalCost = ili.CostOfProducts + ili.TaxPaid + ili.ShippingPaid + ili.AdditionalFees,

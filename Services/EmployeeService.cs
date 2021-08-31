@@ -10,6 +10,11 @@ namespace SaintReverenceMVC.Services
 {
     public class EmployeeService
     {
+        private readonly Guid _userID;
+        public EmployeeService(Guid userID){
+            _userID = userID;
+        }
+        
         public bool CreateEmployee(EmployeeCreate model)
         {
             var hasher = HashAlgorithm.Create("SHA512");

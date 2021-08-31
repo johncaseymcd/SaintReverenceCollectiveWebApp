@@ -1,6 +1,5 @@
 using System;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Identity;
 using System.Security.Claims;
 using SaintReverenceMVC.Models.CustomerModels;
 using SaintReverenceMVC.Services;

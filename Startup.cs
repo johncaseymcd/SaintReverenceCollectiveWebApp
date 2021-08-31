@@ -92,11 +92,15 @@ namespace SaintReverenceMVC
                 );
                 endpoints.MapControllerRoute(
                     name: "InvoicesByPastDue",
-                    pattern: "{controller=Invoice}/{action=IndexByPastDue}/{currentDate}"
+                    pattern: "{controller=Invoice}/{action=IndexByPastDue}"
                 );
                 endpoints.MapControllerRoute(
                     name: "InvoicesDueSoon",
-                    pattern: "{controller=Invoice}/{action=IndexByDueSoon}/{twoWeeks}"
+                    pattern: "{controller=Invoice}/{action=IndexByDueSoon}"
+                );
+                endpoints.MapControllerRoute(
+                    name: "InvoiceByVendor",
+                    pattern: "{controller=Invoice}/{action=IndexByVendor}/{vendorID}"
                 );
                 endpoints.MapControllerRoute(
                     name: "InvoiceDefault",
@@ -129,6 +133,10 @@ namespace SaintReverenceMVC
                 endpoints.MapControllerRoute(
                     name: "ProductsByCollection",
                     pattern: "{controller=Product}/{action=IndexByCollection}/{collectionID}"
+                );
+                endpoints.MapControllerRoute(
+                    name: "AddProductToOrder",
+                    pattern: "{controller=Product}/{action=AddProductToOrder}/{productID}/{orderID}"
                 );
                 endpoints.MapControllerRoute(
                     name: "ProductDefault",

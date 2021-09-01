@@ -112,10 +112,10 @@ namespace SaintReverenceMVC.Services
             }
         }
 
-        public IEnumerable<InvoiceListItem> GetInvoicesByVendorID(int id){
+        public IEnumerable<InvoiceListItem> GetInvoicesByVendorID(int vendorID){
             using (var ctx = new src_backendContext()){
                 var query = ctx.Invoices
-                    .Where(i => i.VendorID == id)
+                    .Where(i => i.VendorID == vendorID)
                     .Select(ili => new InvoiceListItem{
                         InvoiceID = ili.InvoiceID,
                         TotalCost = ili.CostOfProducts + ili.TaxPaid + ili.ShippingPaid + ili.AdditionalFees,

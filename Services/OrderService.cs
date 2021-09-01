@@ -42,8 +42,8 @@ namespace SaintReverenceMVC.Services{
             }
         }
 
-        public IEnumerable<OrderListItem> GetAllOrders(Guid id){
-            if (_userID == id){
+        public IEnumerable<OrderListItem> GetAllOrders(Guid userID){
+            if (_userID == userID){
                 using (var ctx = new src_backendContext()){
                     var query = ctx.Orders
                         .Where(o => o.CustomerID == _userID)

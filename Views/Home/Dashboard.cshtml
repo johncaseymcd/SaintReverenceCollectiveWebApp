@@ -1,0 +1,59 @@
+@model SaintReverenceMVC.Models.DashboardModels.DashboardViewModel;
+
+@{
+    ViewData["Title"] = "Dashboard";
+}
+
+<section id="dashCollections">
+    <div class="dashViewer">
+        @foreach (var collectionItem in Model.AllCollections)
+        {
+            // generate list of collections
+        }
+    </div>
+</section>
+
+<section id="dashCustomers">
+    <div class="dashViewer">
+        @foreach (var customerItem in Model.TopCustomers)
+        {
+            // generate list of top 10 customers by dollars spent
+        }
+    </div>
+</section>
+
+<section id="dashEmployees">
+    <div class="dashViewer">
+        @foreach (var employeeItem in Model.NewEmployees)
+        {
+            // generate list of all new hires within the past month
+        }
+    </div>
+</section>
+
+<section id="dashInvoices">
+    <div class="dashViewer">
+        @foreach (var invoiceItem in Model.UnpaidInvoices)
+        {
+            // generate list of all unpaid invoices
+        }
+    </div>
+</section>
+
+<section id="dashOrders">
+    <div class="dashViewer">
+        @foreach (var orderItem in Model.UnfulfilledOrders)
+        {
+             // generate list of all orders needing to be packed/shipped
+        }
+    </div>
+</section>"
+
+<section id="dashProducts">
+    <div class="dashViewer">
+        @foreach (var productItem in Model.LowInventoryProducts)
+        {
+            // generate list of products with less than 20% stock available
+        }
+    </div>
+</section>

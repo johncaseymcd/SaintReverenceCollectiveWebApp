@@ -84,7 +84,7 @@ namespace SaintReverenceMVC
                 );
                 endpoints.MapControllerRoute(
                     name: "EmployeesByPermissionLevel",
-                    pattern: "{controller=Employee}/{action=IndexByPermissionLevel/{level}"
+                    pattern: "{controller=Employee}/{action=IndexByPermissionLevel}/{level}"
                 );
                 endpoints.MapControllerRoute(
                     name: "EmployeeDefault",
@@ -116,7 +116,7 @@ namespace SaintReverenceMVC
                 );
                 endpoints.MapControllerRoute(
                     name: "OrderDefault",
-                    pattern: "{controller=Order}/{action}/{id?"
+                    pattern: "{controller=Order}/{action}/{id?}"
                 );
                 endpoints.MapControllerRoute(
                     name: "PackageDefault",

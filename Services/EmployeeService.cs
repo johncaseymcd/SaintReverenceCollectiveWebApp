@@ -5,16 +5,12 @@ using System.Security.Cryptography;
 using SaintReverenceMVC.Data;
 using SaintReverenceMVC.Models.EmployeeModels;
 using System.Text;
+using SaintReverenceMVC.Services.ServiceContracts;
 
 namespace SaintReverenceMVC.Services
 {
-    public class EmployeeService
-    {
-        private readonly Guid _userID;
-        public EmployeeService(Guid userID){
-            _userID = userID;
-        }
-        
+    public class EmployeeService : IEmployeeService
+    {       
         public bool CreateEmployee(EmployeeCreate model)
         {
             var hasher = HashAlgorithm.Create("SHA512");

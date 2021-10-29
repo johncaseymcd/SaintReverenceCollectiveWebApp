@@ -1,14 +1,18 @@
 using Microsoft.AspNetCore.Mvc;
 using SaintReverenceMVC.Models.CollectionModels;
 using SaintReverenceMVC.Services;
+using SaintReverenceMVC.Services.ServiceContracts;
 
 namespace SaintReverenceMVC.Controllers{
     public class CollectionController : Controller{
+        private readonly ICollectionService _service;
+        public CollectionController(ICollectionService service){
+            _service = service;
+        }
+
         // GET: Index
         public IActionResult Index(){
-
-            var svc = new CollectionService();
-            var model = svc.GetAllCollections();
+            var model = _service.GetAllCollections();
             return View(model);            
         }
 
@@ -21,8 +25,7 @@ namespace SaintReverenceMVC.Controllers{
         public IActionResult Create(CollectionCreate model){
             if (!ModelState.IsValid) return View(model);
 
-            var svc = new CollectionService();
-            if (svc.CreateCollection(model)){
+            if (_service.CreateCollection(model)){
                 TempData["SaveResult"] = "Collection has been created!";
                 return Redirect(nameof(Index));
             }
@@ -33,21 +36,18 @@ namespace SaintReverenceMVC.Controllers{
 
         // GET: Details
         public IActionResult Details(int id){
-            var svc = new CollectionService();
-            var model = svc.GetCollectionByID(id);
+            var model = _service.GetCollectionByID(id);
             return View(model);
         }
 
         public IActionResult IndexByEndDate(){
-            var svc = new CollectionService();
-            var model = svc.GetCollectionsEndingSoon();
+            var model = _service.GetCollectionsEndingSoon();
             return View(model);
         }
 
         // GET: Edit
         public IActionResult Edit(int id){
-            var svc = new CollectionService();
-            var details = svc.GetCollectionByID(id);
+            var details = _service.GetCollectionByID(id);
             var model = new CollectionEdit{
                 CollectionID = details.CollectionID,
                 CollectionName = details.CollectionName,
@@ -68,8 +68,7 @@ namespace SaintReverenceMVC.Controllers{
                 return View(model);
             }
 
-            var svc = new CollectionService();
-            if (svc.UpdateCollection(model)){
+            if (_service.UpdateCollection(model)){
                 TempData["SaveResult"] = "Collection information has been updated!";
                 return Redirect(nameof(Index));
             }
@@ -81,16 +80,14 @@ namespace SaintReverenceMVC.Controllers{
         // GET: Delete
         [ActionName("Delete")]
         public IActionResult Delete(int id){
-            var svc = new CollectionService();
-            var model = svc.GetCollectionByID(id);
+            var model = _service.GetCollectionByID(id);
             return View(model);
         }
 
         // POST: Delete
         [ActionName("Delete")]
         public IActionResult DeleteCollection(int id){
-            var svc = new CollectionService();
-            svc.DeleteCollection(id);
+            _service.DeleteCollection(id);
             TempData["SaveResult"] = "Collection has been successfully deleted!";
             return Redirect(nameof(Index));
         }

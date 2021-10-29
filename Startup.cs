@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Autofac;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -10,6 +11,8 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using SaintReverenceMVC.Data;
+using SaintReverenceMVC.Services.ServiceContracts;
+using SaintReverenceMVC.Services;
 
 
 namespace SaintReverenceMVC
@@ -21,7 +24,8 @@ namespace SaintReverenceMVC
             Configuration = configuration;
         }
 
-        public IConfiguration Configuration { get; }
+        public IConfiguration Configuration { get; private set; }
+        public ILifetimeScope AutofacContainer { get; private set; }
 
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
@@ -29,6 +33,17 @@ namespace SaintReverenceMVC
             services.AddControllersWithViews();
             services.AddServerSideBlazor();
             services.AddDbContext<src_backendContext>(options => options.UseSqlServer(Configuration.GetConnectionString("SaintReverenceDb")));
+        }
+
+        public void ConfigureContainer(ContainerBuilder builder){
+            builder.RegisterType<CollectionService>().As<ICollectionService>();
+            builder.RegisterType<CustomerService>().As<ICustomerService>();
+            builder.RegisterType<EmployeeService>().As<IEmployeeService>();
+            builder.RegisterType<InvoiceService>().As<IInvoiceService>();
+            builder.RegisterType<OrderService>().As<IOrderService>();
+            builder.RegisterType<PackageService>().As<IPackageService>();
+            builder.RegisterType<ProductService>().As<IProductService>();
+            builder.RegisterType<VendorService>().As<IVendorService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

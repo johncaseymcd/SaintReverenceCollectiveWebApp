@@ -3,18 +3,16 @@ using System.Linq;
 using System.Collections.Generic;
 using SaintReverenceMVC.Data;
 using SaintReverenceMVC.Models.CustomerModels;
+using SaintReverenceMVC.Services.ServiceContracts;
 
 namespace SaintReverenceMVC.Services
 {
-    public class CustomerService
+    public class CustomerService : ICustomerService
     {
-        private readonly Guid _userID;
-        public CustomerService(Guid userID){
-            _userID = userID;
-        }
-
-        public bool CreateCustomer(CustomerCreate model){
-            var entity = new Customer{
+        public bool CreateCustomer(CustomerCreate model)
+        {
+            var entity = new Customer
+            {
                 CustomerFirstName = model.CustomerFirstName,
                 CustomerMiddleName = model.CustomerMiddleName,
                 CustomerLastName = model.CustomerLastName,
@@ -22,24 +20,28 @@ namespace SaintReverenceMVC.Services
                 CustomerEmail = model.CustomerEmail,
                 CustomerPhone = model.CustomerPhone,
                 CustomerAddressLine1 = model.CustomerAddressLine1,
-                CustomerAddressLine2 = model.CustomerAddressLine2, 
-                CustomerAddressLine3 = model.CustomerAddressLine3, 
+                CustomerAddressLine2 = model.CustomerAddressLine2,
+                CustomerAddressLine3 = model.CustomerAddressLine3,
                 CustomerAddressCity = model.CustomerAddressCity,
                 CustomerAddressStateOrProvince = model.CustomerAddressStateOrProvince,
                 CustomerAddressPostalCode = model.CustomerAddressPostalCode,
                 CustomerAddressCountry = model.CustomerAddressCountry
             };
 
-            using (var ctx = new src_backendContext()){
+            using (var ctx = new src_backendContext())
+            {
                 ctx.Customers.Add(entity);
                 return ctx.SaveChanges() == 1;
             }
         }
 
-        public IEnumerable<CustomerListItem> GetAllCustomers(){
-            using (var ctx = new src_backendContext()){
+        public IEnumerable<CustomerListItem> GetAllCustomers()
+        {
+            using (var ctx = new src_backendContext())
+            {
                 var query = ctx.Customers
-                    .Select(cli => new CustomerListItem{
+                    .Select(cli => new CustomerListItem
+                    {
                         CustomerID = cli.CustomerID,
                         CustomerName = cli.CustomerFirstName + " " + cli.CustomerMiddleName + " " + cli.CustomerLastName,
                         CustomerBirthday = cli.CustomerBirthday,
@@ -52,15 +54,19 @@ namespace SaintReverenceMVC.Services
             }
         }
 
-        public CustomerDetail GetCustomerByID(Guid id){
-            using (var ctx = new src_backendContext()){
+        public CustomerDetail GetCustomerByID(Guid id)
+        {
+            using (var ctx = new src_backendContext())
+            {
                 var entity = ctx.Customers.Find(id);
                 var total = 0.00m;
-                foreach(var order in entity.Orders){
+                foreach (var order in entity.Orders)
+                {
                     total += order.OrderTotal;
                 }
 
-                return new CustomerDetail{
+                return new CustomerDetail
+                {
                     CustomerID = entity.CustomerID,
                     CustomerName = entity.CustomerFirstName + " " + entity.CustomerMiddleName + " " + entity.CustomerLastName,
                     CustomerBirthday = entity.CustomerBirthday,
@@ -73,11 +79,14 @@ namespace SaintReverenceMVC.Services
             }
         }
 
-        public IEnumerable<CustomerListItem> GetCustomersByBirthday(DateTime birthday){
-            using (var ctx = new src_backendContext()){
+        public IEnumerable<CustomerListItem> GetCustomersByBirthday(DateTime birthday)
+        {
+            using (var ctx = new src_backendContext())
+            {
                 var query = ctx.Customers
                     .Where(c => c.CustomerBirthday == birthday)
-                    .Select(cli => new CustomerListItem{
+                    .Select(cli => new CustomerListItem
+                    {
                         CustomerID = cli.CustomerID,
                         CustomerName = cli.CustomerFirstName + " " + cli.CustomerMiddleName + " " + cli.CustomerLastName,
                         CustomerBirthday = cli.CustomerBirthday,
@@ -90,11 +99,14 @@ namespace SaintReverenceMVC.Services
             }
         }
 
-        public IEnumerable<CustomerListItem> GetVIPCustomers(){
-            using (var ctx = new src_backendContext()){
+        public IEnumerable<CustomerListItem> GetVIPCustomers()
+        {
+            using (var ctx = new src_backendContext())
+            {
                 var query = ctx.Customers
                     .Where(c => c.CustomerOrderTotal > 1000.00m)
-                    .Select(cli => new CustomerListItem{
+                    .Select(cli => new CustomerListItem
+                    {
                         CustomerID = cli.CustomerID,
                         CustomerName = cli.CustomerFirstName + " " + cli.CustomerMiddleName + " " + cli.CustomerLastName,
                         CustomerBirthday = cli.CustomerBirthday,
@@ -107,8 +119,10 @@ namespace SaintReverenceMVC.Services
             }
         }
 
-        public bool UpdateCustomer(CustomerEdit model){
-            using (var ctx = new src_backendContext()){
+        public bool UpdateCustomer(CustomerEdit model)
+        {
+            using (var ctx = new src_backendContext())
+            {
                 var entity = ctx.Customers.Find(model.CustomerID);
 
                 entity.CustomerFirstName = model.CustomerFirstName;
@@ -128,8 +142,10 @@ namespace SaintReverenceMVC.Services
             }
         }
 
-        public bool UpdateCustomer(Guid id, CustomerEdit model){
-            using (var ctx = new src_backendContext()){
+        public bool UpdateCustomer(Guid id, CustomerEdit model)
+        {
+            using (var ctx = new src_backendContext())
+            {
                 var entity = ctx.Customers.Single(c => c.CustomerID == id && id == model.CustomerID);
 
                 entity.CustomerFirstName = model.CustomerFirstName;
@@ -149,8 +165,10 @@ namespace SaintReverenceMVC.Services
             }
         }
 
-        public bool DeleteCustomer(Guid id){
-            using (var ctx = new src_backendContext()){
+        public bool DeleteCustomer(Guid id)
+        {
+            using (var ctx = new src_backendContext())
+            {
                 var entity = ctx.Customers.Find(id);
                 ctx.Customers.Remove(entity);
                 return ctx.SaveChanges() == 1;

@@ -3,10 +3,11 @@ using System.Linq;
 using System.Collections.Generic;
 using SaintReverenceMVC.Data;
 using SaintReverenceMVC.Models.InvoiceModels;
+using SaintReverenceMVC.Services.ServiceContracts;
 
 namespace SaintReverenceMVC.Services
 {
-    public class InvoiceService
+    public class InvoiceService : IInvoiceService
     {
         public bool CreateInvoice(InvoiceCreate model){
             var entity = new Invoice{

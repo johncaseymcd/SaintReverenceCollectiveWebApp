@@ -3,14 +3,18 @@ using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
 using SaintReverenceMVC.Models.CustomerModels;
 using SaintReverenceMVC.Services;
+using Microsoft.AspNetCore.Authorization;
+using SaintReverenceMVC.Services.ServiceContracts;
 
 namespace SaintReverenceMVC.Controllers{
+    [Authorize]
     public class CustomerController : Controller{
+        private readonly ICustomerService _service;
+        public CustomerController(ICustomerService service){
+            _service = service;
+        }
         public IActionResult Index(){
-            var claimsIdentity = (ClaimsIdentity)this.User.Identity;
-            var userID = Guid.Parse(claimsIdentity.FindFirst(ClaimTypes.NameIdentifier).Value);
-            var svc = new CustomerService(userID);
-            var model = svc.GetAllCustomers();
+            var model = _service.GetAllCustomers();
             return View(model);
         }
 
@@ -23,8 +27,7 @@ namespace SaintReverenceMVC.Controllers{
         public IActionResult Create(CustomerCreate model){
             if (!ModelState.IsValid) return View(model);
 
-            var svc = CreateCustomerService();
-            if(svc.CreateCustomer(model)){
+            if(_service.CreateCustomer(model)){
                 TempData["SaveResult"] = "Customer has been successfully created!";
                 return Redirect(nameof(Index));
             }
@@ -34,27 +37,23 @@ namespace SaintReverenceMVC.Controllers{
         }
 
         public IActionResult Details(Guid userID){
-            var svc = CreateCustomerService();
-            var model = svc.GetCustomerByID(userID);
+            var model = _service.GetCustomerByID(userID);
             return View(model);
         }        
 
         public IActionResult IndexByBirthday(DateTime birthday){
-            var svc = CreateCustomerService();
-            var model = svc.GetCustomersByBirthday(birthday);
+            var model = _service.GetCustomersByBirthday(birthday);
             return View(model);
         }
 
         public IActionResult IndexByVIP(){
-            var svc = CreateCustomerService();
-            var model = svc.GetVIPCustomers();
+            var model = _service.GetVIPCustomers();
             return View(model);
         }
 
         // GET: Edit
         public IActionResult Edit(Guid id){
-            var svc = CreateCustomerService();
-            var detail = svc.GetCustomerByID(id);
+            var detail = _service.GetCustomerByID(id);
             string[] fmlNames = detail.CustomerName.Split(' ');
             string[] address = detail.CustomerAddress.Split('\r');
             string[] cityState = address[3].Split(',');
@@ -86,8 +85,7 @@ namespace SaintReverenceMVC.Controllers{
                 return View(model);
             }
 
-            var svc = CreateCustomerService();
-            if (svc.UpdateCustomer(model)){
+            if (_service.UpdateCustomer(model)){
                 TempData["SaveResult"] = "Customer information has been successfully updated!";
                 return Redirect(nameof(Index));
             }
@@ -99,24 +97,16 @@ namespace SaintReverenceMVC.Controllers{
         // GET: Delete
         [ActionName("Delete")]
         public IActionResult Delete(Guid id){
-            var svc = CreateCustomerService();
-            var model = svc.GetCustomerByID(id);
+            var model = _service.GetCustomerByID(id);
             return View(model);
         }
 
         // POST: Delete
         [ActionName("Delete")]
         public IActionResult DeleteCustomer(Guid id){
-            var svc = CreateCustomerService();
-            svc.DeleteCustomer(id);
+            _service.DeleteCustomer(id);
             TempData["SaveResult"] = "Customer has been successfully deleted!";
             return Redirect(nameof(Index));
-        }
-
-        private CustomerService CreateCustomerService(){
-            var claimsIdentity = (ClaimsIdentity)this.User.Identity;
-            var userID = Guid.Parse(claimsIdentity.FindFirst(ClaimTypes.NameIdentifier).Value);
-            return new CustomerService(userID);
         }
     }
 }

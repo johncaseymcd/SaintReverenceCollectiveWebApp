@@ -1,10 +1,4 @@
 using Microsoft.AspNetCore.Mvc;
-using SaintReverenceMVC.Models.CollectionModels;
-using SaintReverenceMVC.Models.CustomerModels;
-using SaintReverenceMVC.Models.EmployeeModels;
-using SaintReverenceMVC.Models.InvoiceModels;
-using SaintReverenceMVC.Models.OrderModels;
-using SaintReverenceMVC.Models.ProductModels;
 using SaintReverenceMVC.Models.DashboardModels;
 using SaintReverenceMVC.Services;
 using System.Security.Claims;
@@ -20,12 +14,12 @@ namespace SaintReverenceMVC.Controllers{
             var claimsIdentity = (ClaimsIdentity)this.User.Identity;
             var userID = Guid.Parse(claimsIdentity.FindFirst(ClaimTypes.NameIdentifier).Value);
             
-            var collectionSvc = new CollectionService();
-            var customerSvc = new CustomerService(userID);
-            var employeeSvc = new EmployeeService(userID);
-            var invoiceSvc = new InvoiceService();
-            var orderSvc = new OrderService(userID);
-            var productSvc = new ProductService();
+            CollectionService collectionSvc = new();
+            CustomerService customerSvc = new();
+            EmployeeService employeeSvc = new(userID);
+            InvoiceService invoiceSvc = new();
+            OrderService orderSvc = new(userID);
+            ProductService productSvc = new();
 
             var model = new DashboardViewModel();
             model.AllCollections = collectionSvc.GetAllCollections();
@@ -37,5 +31,7 @@ namespace SaintReverenceMVC.Controllers{
 
             return View(model);
         }
+
+
     }
 }

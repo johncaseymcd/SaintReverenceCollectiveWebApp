@@ -3,10 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using SaintReverenceMVC.Data;
 using SaintReverenceMVC.Models.CollectionModels;
+using SaintReverenceMVC.Services.ServiceContracts;
 
 namespace SaintReverenceMVC.Services
 {
-    public class CollectionService
+    public class CollectionService : ICollectionService
     {
         public bool CreateCollection(CollectionCreate model){
             var entity = new Collection{

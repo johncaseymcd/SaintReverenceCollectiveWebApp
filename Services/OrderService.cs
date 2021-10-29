@@ -3,14 +3,10 @@ using System.Linq;
 using System.Collections.Generic;
 using SaintReverenceMVC.Data;
 using SaintReverenceMVC.Models.OrderModels;
+using SaintReverenceMVC.Services.ServiceContracts;
 
 namespace SaintReverenceMVC.Services{
-    public class OrderService{
-        private readonly Guid _userID;
-        public OrderService(Guid userID){
-            _userID = userID;
-        }
-
+    public class OrderService : IOrderService{
         public bool CreateOrder(OrderCreate model){
             var entity = new Order{
                 OrderDate = model.OrderDate,

@@ -3,9 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using SaintReverenceMVC.Data;
 using SaintReverenceMVC.Models.PackageModels;
+using SaintReverenceMVC.Services.ServiceContracts;
 
 namespace SaintReverenceMVC.Services{
-    public class PackageService{
+    public class PackageService : IPackageService{
         public bool CreatePackage(PackageCreate model){
             var entity = new Package{
                 PackageName = model.PackageName,

@@ -3,9 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using SaintReverenceMVC.Data;
 using SaintReverenceMVC.Models.ProductModels;
+using SaintReverenceMVC.Services.ServiceContracts;
 
 namespace SaintReverenceMVC.Services{
-    public class ProductService{
+    public class ProductService : IProductService{
         public bool CreateProduct(ProductCreate model){
             var entity = new Product{
                 ProductName = model.ProductName,

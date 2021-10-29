@@ -3,9 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using SaintReverenceMVC.Data;
 using SaintReverenceMVC.Models.VendorModels;
+using SaintReverenceMVC.Services.ServiceContracts;
 
 namespace SaintReverenceMVC.Services{
-    public class VendorService{
+    public class VendorService : IVendorService{
         public bool CreateVendor(VendorCreate model){
             var entity = new Vendor{
                 VendorName = model.VendorName,

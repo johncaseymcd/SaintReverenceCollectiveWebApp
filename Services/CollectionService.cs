@@ -4,12 +4,13 @@ using System.Linq;
 using SaintReverenceMVC.Data;
 using SaintReverenceMVC.Models.CollectionModels;
 using SaintReverenceMVC.Services.ServiceContracts;
+using System.Threading.Tasks;
 
 namespace SaintReverenceMVC.Services
 {
     public class CollectionService : ICollectionService
     {
-        public bool CreateCollection(CollectionCreate model){
+        public Task<bool> CreateCollectionAsync(CollectionCreate model){
             var entity = new Collection{
                 CollectionName = model.CollectionDescription,
                 CollectionDescription = model.CollectionDescription,
@@ -19,11 +20,11 @@ namespace SaintReverenceMVC.Services
 
             using (var ctx = new src_backendContext()){
                 ctx.Collections.Add(entity);
-                return ctx.SaveChanges() == 1;
+                return await ctx.SaveChangesAsync() == 1;
             }
         }
 
-        public IEnumerable<CollectionListItem> GetAllCollections(){
+        public Task<IEnumerable<CollectionListItem>> GetAllCollectionsAsync(){
             using (var ctx = new src_backendContext()){
                 var query = ctx.Collections
                     .Select(cli => new CollectionListItem{
@@ -33,13 +34,13 @@ namespace SaintReverenceMVC.Services
                         EndDate = cli.EndDate
                     });
 
-                return query.ToList().OrderBy(o => o.PublishDate);
+                return await query.ToListAsync().OrderBy(o => o.PublishDate);
             }
         }
 
-        public CollectionDetail GetCollectionByID(int id){
+        public Task<CollectionDetail> GetCollectionByIDAsync(int id){
             using (var ctx = new src_backendContext()){
-                var entity = ctx.Collections.Find(id);
+                var entity = await ctx.Collections.FindAsync(id);
 
                 return new CollectionDetail{
                     CollectionID = entity.CollectionID,
@@ -53,7 +54,7 @@ namespace SaintReverenceMVC.Services
         }
 
         // Get Collections with end dates within two weeks from current date
-        public IEnumerable<CollectionListItem> GetCollectionsEndingSoon(){
+        public Task<IEnumerable<CollectionListItem>> GetCollectionsEndingSoonAsync(){
             using (var ctx = new src_backendContext()){
                 DateTime twoWeeks = DateTime.Now.AddDays(14);
                 var query = ctx.Collections
@@ -65,11 +66,11 @@ namespace SaintReverenceMVC.Services
                         EndDate = cli.EndDate
                     });
 
-                return query.ToList().OrderBy(o => o.EndDate);
+                return await query.ToListAsync().OrderBy(o => o.EndDate);
             }
         }
 
-        public bool UpdateCollection(CollectionEdit model){
+        public Task<bool> UpdateCollectionAsync(CollectionEdit model){
             using (var ctx = new src_backendContext()){
                 var entity = ctx.Collections.Find(model.CollectionID);
                 
@@ -78,15 +79,15 @@ namespace SaintReverenceMVC.Services
                 entity.PublishDate = model.PublishDate;
                 entity.EndDate = model.EndDate;
 
-                return ctx.SaveChanges() == 1;
+                return await ctx.SaveChangesAsync() == 1;
             }
         }
 
-        public bool DeleteCollection(int id){
+        public Task<bool> DeleteCollectionAsync(int id){
             using (var ctx = new src_backendContext()){
                 var entity = ctx.Collections.Find(id);
                 ctx.Collections.Remove(entity);
-                return ctx.SaveChanges() == 1;
+                return await ctx.SaveChangesAsync() == 1;
             }
         }
     }

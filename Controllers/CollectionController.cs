@@ -11,9 +11,9 @@ namespace SaintReverenceMVC.Controllers{
         }
 
         // GET: Index
-        public IActionResult Index(){
-            var model = _service.GetAllCollections();
-            return View(model);            
+        public Task<IActionResult> Index(){
+            var model = await _service.GetAllCollectionsAsync();
+            return View(model);
         }
 
         // GET: Create 
@@ -22,10 +22,10 @@ namespace SaintReverenceMVC.Controllers{
         }
 
         // POST: Create
-        public IActionResult Create(CollectionCreate model){
+        public Task<IActionResult> Create(CollectionCreate model){
             if (!ModelState.IsValid) return View(model);
 
-            if (_service.CreateCollection(model)){
+            if (await _service.CreateCollectionAsync(model)){
                 TempData["SaveResult"] = "Collection has been created!";
                 return Redirect(nameof(Index));
             }
@@ -35,19 +35,19 @@ namespace SaintReverenceMVC.Controllers{
         }
 
         // GET: Details
-        public IActionResult Details(int id){
-            var model = _service.GetCollectionByID(id);
+        public Task<IActionResult> Details(int id){
+            var model = await _service.GetCollectionByIDAsync(id);
             return View(model);
         }
 
-        public IActionResult IndexByEndDate(){
-            var model = _service.GetCollectionsEndingSoon();
+        public Task<IActionResult> IndexByEndDate(){
+            var model = await _service.GetCollectionsEndingSoonAsync();
             return View(model);
         }
 
         // GET: Edit
-        public IActionResult Edit(int id){
-            var details = _service.GetCollectionByID(id);
+        public Task<IActionResult> Edit(int id){
+            var details = await _service.GetCollectionByIDAsync(id);
             var model = new CollectionEdit{
                 CollectionID = details.CollectionID,
                 CollectionName = details.CollectionName,
@@ -60,7 +60,7 @@ namespace SaintReverenceMVC.Controllers{
         }
 
         // POST: Edit
-        public IActionResult Edit(int id, CollectionEdit model){
+        public Task<IActionResult> Edit(int id, CollectionEdit model){
             if (!ModelState.IsValid) return View(model);
 
             if (model.CollectionID != id){
@@ -68,7 +68,7 @@ namespace SaintReverenceMVC.Controllers{
                 return View(model);
             }
 
-            if (_service.UpdateCollection(model)){
+            if (await _service.UpdateCollectionAsync(model)){
                 TempData["SaveResult"] = "Collection information has been updated!";
                 return Redirect(nameof(Index));
             }
@@ -79,15 +79,15 @@ namespace SaintReverenceMVC.Controllers{
 
         // GET: Delete
         [ActionName("Delete")]
-        public IActionResult Delete(int id){
-            var model = _service.GetCollectionByID(id);
+        public Task<IActionResult> Delete(int id){
+            var model = await _service.GetCollectionByIDAsync(id);
             return View(model);
         }
 
         // POST: Delete
         [ActionName("Delete")]
-        public IActionResult DeleteCollection(int id){
-            _service.DeleteCollection(id);
+        public Task<IActionResult> DeleteCollection(int id){
+            await _service.DeleteCollectionAsync(id);
             TempData["SaveResult"] = "Collection has been successfully deleted!";
             return Redirect(nameof(Index));
         }

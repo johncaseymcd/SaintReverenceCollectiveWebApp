@@ -6,11 +6,11 @@ using SaintReverenceMVC.Services;
 
 namespace SaintReverenceMVC.Controllers{
     public class EmployeeController : Controller{
-        public IActionResult Index(){
+        public Task<IActionResult> Index(){
             var claimsIdentity = (ClaimsIdentity)this.User.Identity;
             var userID = Guid.Parse(claimsIdentity.FindFirst(ClaimTypes.NameIdentifier).Value);
             var svc = new EmployeeService(userID);
-            var model = svc.GetAllEmployees();
+            var model = await svc.GetAllEmployeesAsync();
             return View(model);
         }
 
@@ -20,11 +20,11 @@ namespace SaintReverenceMVC.Controllers{
         }
 
         // POST: Create
-        public IActionResult Create(EmployeeCreate model){
+        public Task<IActionResult> Create(EmployeeCreate model){
             if (!ModelState.IsValid) return View(model);
 
             var svc = CreateEmployeeService();
-            if (svc.CreateEmployee(model)){
+            if (await svc.CreateEmployeeAsync(model)){
                 TempData["SaveResult"] = "Employee has been successfully created!";
                 return Redirect(nameof(Index));
             }
@@ -33,34 +33,34 @@ namespace SaintReverenceMVC.Controllers{
             return View(model);
         }
 
-        public IActionResult Details(Guid id){
+        public Task<IActionResult> Details(Guid id){
             var svc = CreateEmployeeService();
-            var model = svc.GetEmployeeByID(id);
+            var model = await svc.GetEmployeeByIDAsync(id);
             return View(model);
         }
 
-        public IActionResult IndexByBirthday(DateTime birthday){
+        public Task<IActionResult> IndexByBirthday(DateTime birthday){
             var svc = CreateEmployeeService();
-            var model = svc.GetEmployeesByBirthday(birthday);
+            var model = await svc.GetEmployeesByBirthdayAsync(birthday);
             return View(model);
         }
 
-        public IActionResult IndexByStatus(bool status){
+        public Task<IActionResult> IndexByStatus(bool status){
             var svc = CreateEmployeeService();
-            var model = svc.GetEmployeesByStatus(status);
+            var model = await svc.GetEmployeesByStatusAsync(status);
             return View(model);
         }
 
-        public IActionResult IndexByPermissionLevel(int level){
+        public Task<IActionResult> IndexByPermissionLevel(int level){
             var svc = CreateEmployeeService();
-            var model = svc.GetEmployeesByPermissionLevel(level);
+            var model = await svc.GetEmployeesByPermissionLevelAsync(level);
             return View(model);
         }
 
         // GET: Edit
-        public IActionResult Edit(Guid id){
+        public Task<IActionResult> Edit(Guid id){
             var svc = CreateEmployeeService();
-            var detail = svc.GetEmployeeByID(id);
+            var detail = await svc.GetEmployeeByIDAsync(id);
             string[] fmlNames = detail.EmployeeName.Split(' ');
             string[] address = detail.EmployeeAddress.Split('\r');
             string[] cityState = address[3].Split(',');
@@ -88,7 +88,7 @@ namespace SaintReverenceMVC.Controllers{
         }
 
         // POST: Edit
-        public IActionResult Edit(Guid id, EmployeeEdit model){
+        public Task<IActionResult> Edit(Guid id, EmployeeEdit model){
             if (!ModelState.IsValid) return View(model);
             if (model.EmployeeID != id){
                 ModelState.AddModelError("EmployeeIdMismatch", "Given ID parameter does not match existing database ID, please try again.");
@@ -96,7 +96,7 @@ namespace SaintReverenceMVC.Controllers{
             }
 
             var svc = CreateEmployeeService();
-            if (svc.UpdateEmployee(model)){
+            if (await svc.UpdateEmployeeAsync(model)){
                 TempData["SaveResult"] = "Employee information has been successfully updated!";
                 return Redirect(nameof(Index));
             }
@@ -107,17 +107,17 @@ namespace SaintReverenceMVC.Controllers{
 
         // GET: Delete
         [ActionName("Delete")]
-        public IActionResult Delete(Guid id){
+        public Task<IActionResult> Delete(Guid id){
             var svc = CreateEmployeeService();
-            var model = svc.GetEmployeeByID(id);
+            var model = await svc.GetEmployeeByIDAsync(id);
             return View(model);
         }
 
         // POST: Delete
         [ActionName("Delete")]
-        public IActionResult DeleteEmployee(Guid id){
+        public Task<IActionResult> DeleteEmployee(Guid id){
             var svc = CreateEmployeeService();
-            svc.DeleteEmployee(id);
+            await svc.DeleteEmployeeAsync(id);
             TempData["SaveResult"] = "Employee has been successfully deleted!";
             return Redirect(nameof(Index));
         }

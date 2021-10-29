@@ -9,6 +9,11 @@ using System.Collections.Generic;
 
 namespace SaintReverenceMVC.Services.ServiceContracts{
     public interface IDashboardService{
-        
+        IEnumerable<CollectionListItem> DisplayAllCollections();
+        IEnumerable<CustomerListItem> DisplayTopCustomers();
+        IEnumerable<EmployeeListItem> DisplayNewEmployees();
+        IEnumerable<InvoiceListItem> DisplayUnpaidInvoices();
+        IEnumerable<OrderListItem> DisplayUnfulfilledOrders();
+        IEnumerable<ProductListItem> DisplayLowInventoryProducts();
     }
 }

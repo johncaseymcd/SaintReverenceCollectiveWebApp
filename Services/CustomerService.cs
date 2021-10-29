@@ -9,7 +9,7 @@ namespace SaintReverenceMVC.Services
 {
     public class CustomerService : ICustomerService
     {
-        public bool CreateCustomer(CustomerCreate model)
+        public Task<bool> CreateCustomerAsync(CustomerCreate model)
         {
             var entity = new Customer
             {
@@ -31,11 +31,11 @@ namespace SaintReverenceMVC.Services
             using (var ctx = new src_backendContext())
             {
                 ctx.Customers.Add(entity);
-                return ctx.SaveChanges() == 1;
+                return await ctx.SaveChangesAsync() == 1;
             }
         }
 
-        public IEnumerable<CustomerListItem> GetAllCustomers()
+        public Task<IEnumerable<CustomerListItem>> GetAllCustomersAsync()
         {
             using (var ctx = new src_backendContext())
             {
@@ -50,15 +50,15 @@ namespace SaintReverenceMVC.Services
                         CustomerOrderTotal = cli.CustomerOrderTotal
                     });
 
-                return query.ToList().OrderBy(o => o.CustomerName);
+                return await query.ToListAsync().OrderBy(o => o.CustomerName);
             }
         }
 
-        public CustomerDetail GetCustomerByID(Guid id)
+        public Task<CustomerDetail> GetCustomerByIDAsync(Guid id)
         {
             using (var ctx = new src_backendContext())
             {
-                var entity = ctx.Customers.Find(id);
+                var entity = await ctx.Customers.FindAsync(id);
                 var total = 0.00m;
                 foreach (var order in entity.Orders)
                 {
@@ -79,7 +79,7 @@ namespace SaintReverenceMVC.Services
             }
         }
 
-        public IEnumerable<CustomerListItem> GetCustomersByBirthday(DateTime birthday)
+        public Task<IEnumerable<CustomerListItem>> GetCustomersByBirthdayAsync(DateTime birthday)
         {
             using (var ctx = new src_backendContext())
             {
@@ -95,11 +95,11 @@ namespace SaintReverenceMVC.Services
                         CustomerOrderTotal = cli.CustomerOrderTotal
                     });
 
-                return query.ToList().OrderBy(o => o.CustomerName);
+                return await query.ToListAsync().OrderBy(o => o.CustomerName);
             }
         }
 
-        public IEnumerable<CustomerListItem> GetVIPCustomers()
+        public Task<IEnumerable<CustomerListItem>> GetVIPCustomersAsync()
         {
             using (var ctx = new src_backendContext())
             {
@@ -115,11 +115,11 @@ namespace SaintReverenceMVC.Services
                         CustomerOrderTotal = cli.CustomerOrderTotal
                     });
 
-                return query.ToList().OrderByDescending(o => o.CustomerOrderTotal);
+                return await query.ToListAsync().OrderByDescending(o => o.CustomerOrderTotal);
             }
         }
 
-        public bool UpdateCustomer(CustomerEdit model)
+        public Task<bool> UpdateCustomerAsync(CustomerEdit model)
         {
             using (var ctx = new src_backendContext())
             {
@@ -138,11 +138,11 @@ namespace SaintReverenceMVC.Services
                 entity.CustomerAddressPostalCode = model.CustomerAddressPostalCode;
                 entity.CustomerAddressCountry = model.CustomerAddressCountry;
 
-                return ctx.SaveChanges() == 1;
+                return await ctx.SaveChangesAsync() == 1;
             }
         }
 
-        public bool UpdateCustomer(Guid id, CustomerEdit model)
+        public Task<bool> UpdateCustomerAsync(Guid id, CustomerEdit model)
         {
             using (var ctx = new src_backendContext())
             {
@@ -161,17 +161,17 @@ namespace SaintReverenceMVC.Services
                 entity.CustomerAddressPostalCode = model.CustomerAddressPostalCode;
                 entity.CustomerAddressCountry = model.CustomerAddressCountry;
 
-                return ctx.SaveChanges() == 1;
+                return await ctx.SaveChangesAsync() == 1;
             }
         }
 
-        public bool DeleteCustomer(Guid id)
+        public Task<bool> DeleteCustomerAsync(Guid id)
         {
             using (var ctx = new src_backendContext())
             {
                 var entity = ctx.Customers.Find(id);
                 ctx.Customers.Remove(entity);
-                return ctx.SaveChanges() == 1;
+                return await ctx.SaveChangesAsync() == 1;
             }
         }
     }

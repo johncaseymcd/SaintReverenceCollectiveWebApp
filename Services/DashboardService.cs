@@ -7,6 +7,7 @@ using SaintReverenceMVC.Models.OrderModels;
 using SaintReverenceMVC.Models.ProductModels;
 using System.Collections.Generic;
 using SaintReverenceMVC.Services.ServiceContracts;
+using System.Threading.Tasks;
 
 namespace SaintReverenceMVC.Services{
     public class DashboardService : IDashboardService{
@@ -26,6 +27,12 @@ namespace SaintReverenceMVC.Services{
             _productService = productService;
         }
 
-        
+        public Task<IEnumerable<CollectionListItem>> DisplayAllCollections(){
+            return await _collectionService.GetAllCollectionsAsync();
+        }
+
+        public Task<IEnumerable<CustomerListItem>> DisplayTopCustomers(){
+            
+        }
     }
 }

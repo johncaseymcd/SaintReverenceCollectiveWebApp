@@ -13,8 +13,9 @@ namespace SaintReverenceMVC.Controllers{
         public CustomerController(ICustomerService service){
             _service = service;
         }
-        public IActionResult Index(){
-            var model = _service.GetAllCustomers();
+
+        public Task<IActionResult> Index(){
+            var model = await _service.GetAllCustomersAsync();
             return View(model);
         }
 
@@ -24,10 +25,10 @@ namespace SaintReverenceMVC.Controllers{
         }
 
         // POST: Create
-        public IActionResult Create(CustomerCreate model){
+        public Task<IActionResult> Create(CustomerCreate model){
             if (!ModelState.IsValid) return View(model);
 
-            if(_service.CreateCustomer(model)){
+            if(await _service.CreateCustomerAsync(model)){
                 TempData["SaveResult"] = "Customer has been successfully created!";
                 return Redirect(nameof(Index));
             }
@@ -36,24 +37,24 @@ namespace SaintReverenceMVC.Controllers{
             return View(model);
         }
 
-        public IActionResult Details(Guid userID){
-            var model = _service.GetCustomerByID(userID);
+        public Task<IActionResult> Details(Guid userID){
+            var model = await _service.GetCustomerByIDAsync(userID);
             return View(model);
         }        
 
-        public IActionResult IndexByBirthday(DateTime birthday){
-            var model = _service.GetCustomersByBirthday(birthday);
+        public Task<IActionResult> IndexByBirthday(DateTime birthday){
+            var model = await _service.GetCustomersByBirthdayAsync(birthday);
             return View(model);
         }
 
-        public IActionResult IndexByVIP(){
-            var model = _service.GetVIPCustomers();
+        public Task<IActionResult> IndexByVIP(){
+            var model = await _service.GetVIPCustomersAsync();
             return View(model);
         }
 
         // GET: Edit
-        public IActionResult Edit(Guid id){
-            var detail = _service.GetCustomerByID(id);
+        public Task<IActionResult> Edit(Guid id){
+            var detail = await _service.GetCustomerByIDAsync(id);
             string[] fmlNames = detail.CustomerName.Split(' ');
             string[] address = detail.CustomerAddress.Split('\r');
             string[] cityState = address[3].Split(',');
@@ -77,7 +78,7 @@ namespace SaintReverenceMVC.Controllers{
         }
 
         // POST: Edit
-        public IActionResult Edit(Guid id, CustomerEdit model){
+        public Task<IActionResult> Edit(Guid id, CustomerEdit model){
             if (!ModelState.IsValid) return View(model);
 
             if (model.CustomerID != id){
@@ -85,7 +86,7 @@ namespace SaintReverenceMVC.Controllers{
                 return View(model);
             }
 
-            if (_service.UpdateCustomer(model)){
+            if (await _service.UpdateCustomerAsync(model)){
                 TempData["SaveResult"] = "Customer information has been successfully updated!";
                 return Redirect(nameof(Index));
             }
@@ -96,15 +97,15 @@ namespace SaintReverenceMVC.Controllers{
 
         // GET: Delete
         [ActionName("Delete")]
-        public IActionResult Delete(Guid id){
-            var model = _service.GetCustomerByID(id);
+        public Task<IActionResult> Delete(Guid id){
+            var model = await _service.GetCustomerByIDAsync(id);
             return View(model);
         }
 
         // POST: Delete
         [ActionName("Delete")]
-        public IActionResult DeleteCustomer(Guid id){
-            _service.DeleteCustomer(id);
+        public Task<IActionResult> DeleteCustomer(Guid id){
+            await _service.DeleteCustomerAsync(id);
             TempData["SaveResult"] = "Customer has been successfully deleted!";
             return Redirect(nameof(Index));
         }

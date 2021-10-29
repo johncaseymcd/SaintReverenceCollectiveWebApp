@@ -11,7 +11,7 @@ namespace SaintReverenceMVC.Services
 {
     public class EmployeeService : IEmployeeService
     {       
-        public bool CreateEmployee(EmployeeCreate model)
+        public Task<bool> CreateEmployeeAsync(EmployeeCreate model)
         {
             var hasher = HashAlgorithm.Create("SHA512");
             var entity = new Employee
@@ -39,11 +39,11 @@ namespace SaintReverenceMVC.Services
 
             using (var ctx = new src_backendContext()){
                 ctx.Employees.Add(entity);
-                return ctx.SaveChanges() == 1;
+                return await ctx.SaveChangesAsync() == 1;
             }
         }
 
-        public IEnumerable<EmployeeListItem> GetAllEmployees(){
+        public Task<IEnumerable<EmployeeListItem>> GetAllEmployeesAsync(){
             using (var ctx = new src_backendContext()){
                 var query = ctx.Employees
                     .Select(eli => new EmployeeListItem{
@@ -59,13 +59,13 @@ namespace SaintReverenceMVC.Services
                         EmployeePermissionLevel = eli.EmployeePermissionLevel
                     });
 
-                return query.ToList().OrderByDescending(o => o.EmployeePermissionLevel).ThenBy(o => o.EmployeeName);
+                return await query.ToListAsync().OrderByDescending(o => o.EmployeePermissionLevel).ThenBy(o => o.EmployeeName);
             }
         }
 
-        public EmployeeDetail GetEmployeeByID(Guid id){
+        public Task<EmployeeDetail> GetEmployeeByIDAsync(Guid id){
             using (var ctx = new src_backendContext()){
-                var entity = ctx.Employees.Find(id);
+                var entity = await ctx.Employees.FindAsync(id);
 
                 return new EmployeeDetail{
                     EmployeeID = entity.EmployeeID,
@@ -83,7 +83,7 @@ namespace SaintReverenceMVC.Services
             }
         }
 
-        public IEnumerable<EmployeeListItem> GetEmployeesByBirthday(DateTime birthday){
+        public Task<IEnumerable<EmployeeListItem>> GetEmployeesByBirthdayAsync(DateTime birthday){
             using (var ctx = new src_backendContext()){
                 var query = ctx.Employees
                     .Where(e => e.EmployeeBirthday == birthday)
@@ -100,11 +100,11 @@ namespace SaintReverenceMVC.Services
                         EmployeePermissionLevel = eli.EmployeePermissionLevel
                     });
 
-                return query.ToList().OrderBy(o => o.EmployeeName);
+                return await query.ToListAsync().OrderBy(o => o.EmployeeName);
             }
         }
 
-        public IEnumerable<EmployeeListItem> GetEmployeesByStatus(bool status){
+        public Task<IEnumerable<EmployeeListItem>> GetEmployeesByStatusAsync(bool status){
             using (var ctx = new src_backendContext()){
                 var query = ctx.Employees
                     .Where(e => e.EmployeeIsActive == status)
@@ -121,11 +121,11 @@ namespace SaintReverenceMVC.Services
                         EmployeePermissionLevel = eli.EmployeePermissionLevel
                     });
 
-                return query.ToList().OrderByDescending(o => o.EmployeePermissionLevel).ThenBy(o => o.EmployeeName);
+                return await query.ToListAsync().OrderByDescending(o => o.EmployeePermissionLevel).ThenBy(o => o.EmployeeName);
             }
         }
 
-        public IEnumerable<EmployeeListItem> GetEmployeesByPermissionLevel(int level){
+        public Task<IEnumerable<EmployeeListItem>> GetEmployeesByPermissionLevelAsync(int level){
             using (var ctx = new src_backendContext()){
                 var query = ctx.Employees
                     .Where(e => e.EmployeePermissionLevel == level)
@@ -142,11 +142,11 @@ namespace SaintReverenceMVC.Services
                         EmployeePermissionLevel = eli.EmployeePermissionLevel
                     });
 
-                return query.ToList().OrderByDescending(o => o.EmployeePermissionLevel).ThenBy(o => o.EmployeeName);
+                return await query.ToListAsync().OrderByDescending(o => o.EmployeePermissionLevel).ThenBy(o => o.EmployeeName);
             }
         }
 
-        public bool UpdateEmployee(EmployeeEdit model){
+        public Task<bool> UpdateEmployeeAsync(EmployeeEdit model){
             using (var ctx = new src_backendContext()){
                 var entity = ctx.Employees.Find(model.EmployeeID);
 
@@ -167,15 +167,15 @@ namespace SaintReverenceMVC.Services
                 entity.EmployeeIsActive = model.EmployeeIsActive;
                 entity.EmployeePermissionLevel = model.EmployeePermissionLevel;
 
-                return ctx.SaveChanges() == 1;
+                return await ctx.SaveChangesAsync() == 1;
             }            
         }
 
-        public bool DeleteEmployee(Guid id){
+        public Task<bool> DeleteEmployeeAsync(Guid id){
             using (var ctx = new src_backendContext()){
                 var entity = ctx.Employees.Find(id);
                 ctx.Employees.Remove(entity);
-                return ctx.SaveChanges() == 1;
+                return await ctx.SaveChangesAsync() == 1;
             }
         }
 

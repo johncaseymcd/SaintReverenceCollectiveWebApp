@@ -25,6 +25,7 @@ namespace SaintReverenceMVC.Data
         [Required]
         public decimal ProductSellPrice { get; set; }
         public int ProductInventoryCount { get; set; }
+        public int ProductMaxInventory { get; set; }
         [Required]
         public int ProductTurnaroundTime { get; set; }
         [Required]

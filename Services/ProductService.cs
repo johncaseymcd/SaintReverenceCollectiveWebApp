@@ -13,6 +13,7 @@ namespace SaintReverenceMVC.Services{
                 ProductBuyCost = model.ProductBuyCost,
                 ProductSellPrice = model.ProductSellPrice,
                 ProductInventoryCount = model.ProductInventoryCount,
+                ProductMaxInventory = model.ProductMaxInventoryCount,
                 ProductTurnaroundTime = model.ProductTurnaroundTime,
                 ProductWeightInGrams = model.ProductWeightInGrams,
                 ProductIsActive = model.ProductIsActive,
@@ -36,6 +37,7 @@ namespace SaintReverenceMVC.Services{
                         ProductName = pli.ProductName,
                         ProductSellPrice = pli.ProductSellPrice,
                         ProductInventoryCount = pli.ProductInventoryCount,
+                        ProductMaxInventoryCount = pli.ProductMaxInventory,
                         ProductTurnaroundTime = pli.ProductTurnaroundTime,
                         CategoryID = pli.CategoryID,
                         CollectionID = pli.CollectionID
@@ -56,6 +58,7 @@ namespace SaintReverenceMVC.Services{
                     ProductBuyCost = entity.ProductBuyCost,
                     ProductSellPrice = entity.ProductSellPrice,
                     ProductInventoryCount = entity.ProductInventoryCount,
+                    ProductMaxInventoryCount = entity.ProductMaxInventory,
                     ProductWeightInGrams = entity.ProductWeightInGrams,
                     ProductIsActive = entity.ProductIsActive,
                     CategoryID = entity.CategoryID,
@@ -74,6 +77,7 @@ namespace SaintReverenceMVC.Services{
                         ProductName = pli.ProductName,
                         ProductSellPrice = pli.ProductSellPrice,
                         ProductInventoryCount = pli.ProductInventoryCount,
+                        ProductMaxInventoryCount = pli.ProductMaxInventory,
                         ProductTurnaroundTime = pli.ProductTurnaroundTime,
                         CategoryID = pli.CategoryID,
                         CollectionID = pli.CollectionID
@@ -92,6 +96,7 @@ namespace SaintReverenceMVC.Services{
                         ProductName = pli.ProductName,
                         ProductSellPrice = pli.ProductSellPrice,
                         ProductInventoryCount = pli.ProductInventoryCount,
+                        ProductMaxInventoryCount = pli.ProductMaxInventory,
                         ProductTurnaroundTime = pli.ProductTurnaroundTime,
                         CategoryID = pli.CategoryID,
                         CollectionID = pli.CollectionID
@@ -110,6 +115,7 @@ namespace SaintReverenceMVC.Services{
                         ProductName = pli.ProductName,
                         ProductSellPrice = pli.ProductSellPrice,
                         ProductInventoryCount = pli.ProductInventoryCount,
+                        ProductMaxInventoryCount = pli.ProductMaxInventory,
                         ProductTurnaroundTime = pli.ProductTurnaroundTime,
                         CategoryID = pli.CategoryID,
                         CollectionID = pli.CollectionID
@@ -128,6 +134,7 @@ namespace SaintReverenceMVC.Services{
                         ProductName = pli.ProductName,
                         ProductSellPrice = pli.ProductSellPrice,
                         ProductInventoryCount = pli.ProductInventoryCount,
+                        ProductMaxInventoryCount = pli.ProductMaxInventory,
                         ProductTurnaroundTime = pli.ProductTurnaroundTime,
                         CategoryID = pli.CategoryID,
                         CollectionID = pli.CollectionID
@@ -160,6 +167,7 @@ namespace SaintReverenceMVC.Services{
                 entity.ProductDescription = model.ProductDescription;
                 entity.ProductSellPrice = model.ProductSellPrice;
                 entity.ProductInventoryCount = model.ProductInventoryCount;
+                entity.ProductMaxInventory = model.ProductMaxInventoryCount;
                 entity.ProductIsActive = model.ProductIsActive;
 
                 return ctx.SaveChanges() == 1;

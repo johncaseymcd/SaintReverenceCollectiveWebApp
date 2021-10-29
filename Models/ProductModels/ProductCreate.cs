@@ -13,6 +13,7 @@ namespace SaintReverenceMVC.Models.ProductModels
         [Required]
         public decimal ProductSellPrice { get; set; }
         public int ProductInventoryCount { get; set; }
+        public int ProductMaxInventoryCount { get; set; }
         [Required]
         public int ProductTurnaroundTime { get; set; }
         [Required]

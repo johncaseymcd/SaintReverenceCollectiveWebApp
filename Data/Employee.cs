@@ -40,6 +40,8 @@ namespace SaintReverenceMVC.Data
         [Required, MaxLength(255)]
         public string EmployeeSSNHash { get; set; }
         [Required]
+        public DateTimeOffset EmployeeHireDate { get; set; }
+        [Required]
         public decimal EmployeeSalaryPerYear { get; set; }
         [Required, Range(0, 41)]
         public int EmployeeHoursPerWeek { get; set; }

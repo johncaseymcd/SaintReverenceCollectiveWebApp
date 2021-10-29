@@ -11,6 +11,7 @@ namespace SaintReverenceMVC.Models.ProductModels
         public string ProductDescription { get; set; }
         public decimal ProductSellPrice { get; set; }
         public int ProductInventoryCount { get; set; }
+        public int ProductMaxInventoryCount { get; set; }
         public bool ProductIsActive { get; set; }
     }
 }

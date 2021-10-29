@@ -34,6 +34,8 @@ namespace SaintReverenceMVC.Models.EmployeeModels
         [Required, MaxLength(25)]
         public string EmployeeSSN { get; set; }
         [Required]
+        public DateTimeOffset EmployeeHireDate { get; set; }
+        [Required]
         public decimal EmployeeSalaryPerYear { get; set; }
         [Required, Range(0,41)]
         public int EmployeeHoursPerWeek { get; set; }

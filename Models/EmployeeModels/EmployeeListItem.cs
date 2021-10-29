@@ -13,5 +13,6 @@ namespace SaintReverenceMVC.Models.EmployeeModels
         public int EmployeeHoursPerWeek { get; set; }
         public bool EmployeeIsActive { get; set; }
         public int EmployeePermissionLevel { get; set; }
+        public DateTimeOffset EmployeeHireDate { get; set; }
     }
 }

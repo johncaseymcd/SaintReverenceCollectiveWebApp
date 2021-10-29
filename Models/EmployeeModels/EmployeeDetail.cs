@@ -10,6 +10,7 @@ namespace SaintReverenceMVC.Models.EmployeeModels
         public string EmployeeEmail { get; set; }
         public string EmployeePhone { get; set; }
         public string EmployeeAddress { get; set; }
+        public DateTimeOffset EmployeeHireDate { get; set; }
         public decimal EmployeeSalaryPerYear { get; set; }
         public int EmployeeHoursPerWeek { get; set; }
         public bool EmployeeIsActive { get; set; }

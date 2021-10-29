@@ -8,6 +8,7 @@ namespace SaintReverenceMVC.Models.ProductModels
         public decimal ProductBuyCost { get; set; }
         public decimal ProductSellPrice { get; set; }
         public int ProductInventoryCount { get; set; }
+        public int ProductMaxInventoryCount { get; set; }
         public decimal ProductWeightInGrams { get; set; }
         public bool ProductIsActive { get; set; }
         public int CategoryID { get; set; }

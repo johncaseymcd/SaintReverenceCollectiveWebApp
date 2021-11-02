@@ -30,7 +30,7 @@
             <th class="customerHeaderCell">Total &#36; Spent</th>
             @foreach (var customer in Model.TopCustomers)
             {
-                <td class="customerDataCell"><a asp-action="Details" asp-controller="Customer" asp-route-id="@customer.CustomerID">@customer.CustomerName</td>
+                <td class="customerDataCell"><a asp-action="Details" asp-controller="Customer" asp-route-id="@customer.CustomerID">@customer.CustomerName</a></td>
                 <td class="customerDataCell"><a asp-action="IndexByBirthday" asp-controller="Customer" asp-route-birthday="@customer.CustomerBirthday">@customer.CustomerBirthday</a></td>
                 <td class="customerDataCell">@customer.CustomerEmail</td>
                 <td class="customerDataCell">@customer.CustomerOrderCount</td>

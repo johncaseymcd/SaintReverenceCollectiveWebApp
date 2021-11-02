@@ -27,12 +27,28 @@ namespace SaintReverenceMVC.Services{
             _productService = productService;
         }
 
-        public Task<IEnumerable<CollectionListItem>> DisplayAllCollections(){
+        public async Task<IEnumerable<CollectionListItem>> DisplayAllCollectionsAsync(){
             return await _collectionService.GetAllCollectionsAsync();
         }
 
-        public Task<IEnumerable<CustomerListItem>> DisplayTopCustomers(){
-            
+        public async Task<IEnumerable<CustomerListItem>> DisplayTopCustomersAsync(){
+            return await _customerService.GetVIPCustomersAsync();
+        }
+
+        public async Task<IEnumerable<EmployeeListItem>> DisplayNewEmployeesAsync(){
+            return await _employeeService.GetNewEmployeesAsync();
+        }
+
+        public async Task<IEnumerable<InvoiceListItem>> DisplayUnpaidInvoicesAsync(){
+            return await _invoiceService.GetInvoicesByPaidStatusAsync(false);
+        }
+
+        public async Task<IEnumerable<OrderListItem>> DisplayUnfulfilledOrdersAsync(){
+            return await _orderService.GetUnfulfilledOrdersAsync();
+        }
+
+        public async Task<IEnumerable<ProductListItem>> DisplayLowInventoryProductsAsync(){
+            return await _productService.GetProductsByLowStockAsync();
         }
     }
 }

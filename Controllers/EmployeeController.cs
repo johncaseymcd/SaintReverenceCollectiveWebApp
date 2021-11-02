@@ -3,13 +3,12 @@ using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
 using SaintReverenceMVC.Models.EmployeeModels;
 using SaintReverenceMVC.Services;
+using System.Threading.Tasks;
 
 namespace SaintReverenceMVC.Controllers{
     public class EmployeeController : Controller{
-        public Task<IActionResult> Index(){
-            var claimsIdentity = (ClaimsIdentity)this.User.Identity;
-            var userID = Guid.Parse(claimsIdentity.FindFirst(ClaimTypes.NameIdentifier).Value);
-            var svc = new EmployeeService(userID);
+        public async Task<IActionResult> Index(){
+            var svc = new EmployeeService();
             var model = await svc.GetAllEmployeesAsync();
             return View(model);
         }
@@ -20,10 +19,10 @@ namespace SaintReverenceMVC.Controllers{
         }
 
         // POST: Create
-        public Task<IActionResult> Create(EmployeeCreate model){
+        public async Task<IActionResult> Create(EmployeeCreate model){
             if (!ModelState.IsValid) return View(model);
 
-            var svc = CreateEmployeeService();
+            var svc = new EmployeeService();
             if (await svc.CreateEmployeeAsync(model)){
                 TempData["SaveResult"] = "Employee has been successfully created!";
                 return Redirect(nameof(Index));
@@ -33,34 +32,34 @@ namespace SaintReverenceMVC.Controllers{
             return View(model);
         }
 
-        public Task<IActionResult> Details(Guid id){
-            var svc = CreateEmployeeService();
-            var model = await svc.GetEmployeeByIDAsync(id);
+        public IActionResult Details(Guid id){
+            var svc = new EmployeeService();
+            var model = svc.GetEmployeeByID(id);
             return View(model);
         }
 
-        public Task<IActionResult> IndexByBirthday(DateTime birthday){
-            var svc = CreateEmployeeService();
+        public async Task<IActionResult> IndexByBirthday(DateTime birthday){
+            var svc = new EmployeeService();
             var model = await svc.GetEmployeesByBirthdayAsync(birthday);
             return View(model);
         }
 
-        public Task<IActionResult> IndexByStatus(bool status){
-            var svc = CreateEmployeeService();
+        public async Task<IActionResult> IndexByStatus(bool status){
+            var svc = new EmployeeService();
             var model = await svc.GetEmployeesByStatusAsync(status);
             return View(model);
         }
 
-        public Task<IActionResult> IndexByPermissionLevel(int level){
-            var svc = CreateEmployeeService();
+        public async Task<IActionResult> IndexByPermissionLevel(int level){
+            var svc = new EmployeeService();
             var model = await svc.GetEmployeesByPermissionLevelAsync(level);
             return View(model);
         }
 
         // GET: Edit
-        public Task<IActionResult> Edit(Guid id){
-            var svc = CreateEmployeeService();
-            var detail = await svc.GetEmployeeByIDAsync(id);
+        public IActionResult Edit(Guid id){
+            var svc = new EmployeeService();
+            var detail = svc.GetEmployeeByID(id);
             string[] fmlNames = detail.EmployeeName.Split(' ');
             string[] address = detail.EmployeeAddress.Split('\r');
             string[] cityState = address[3].Split(',');
@@ -88,14 +87,14 @@ namespace SaintReverenceMVC.Controllers{
         }
 
         // POST: Edit
-        public Task<IActionResult> Edit(Guid id, EmployeeEdit model){
+        public async Task<IActionResult> Edit(Guid id, EmployeeEdit model){
             if (!ModelState.IsValid) return View(model);
             if (model.EmployeeID != id){
                 ModelState.AddModelError("EmployeeIdMismatch", "Given ID parameter does not match existing database ID, please try again.");
                 return View(model);
             }
 
-            var svc = CreateEmployeeService();
+            var svc = new EmployeeService();
             if (await svc.UpdateEmployeeAsync(model)){
                 TempData["SaveResult"] = "Employee information has been successfully updated!";
                 return Redirect(nameof(Index));
@@ -107,25 +106,19 @@ namespace SaintReverenceMVC.Controllers{
 
         // GET: Delete
         [ActionName("Delete")]
-        public Task<IActionResult> Delete(Guid id){
-            var svc = CreateEmployeeService();
-            var model = await svc.GetEmployeeByIDAsync(id);
+        public IActionResult Delete(Guid id){
+            var svc = new EmployeeService();
+            var model = svc.GetEmployeeByID(id);
             return View(model);
         }
 
         // POST: Delete
         [ActionName("Delete")]
-        public Task<IActionResult> DeleteEmployee(Guid id){
-            var svc = CreateEmployeeService();
+        public async Task<IActionResult> DeleteEmployee(Guid id){
+            var svc = new EmployeeService();
             await svc.DeleteEmployeeAsync(id);
             TempData["SaveResult"] = "Employee has been successfully deleted!";
             return Redirect(nameof(Index));
-        }
-
-        private EmployeeService CreateEmployeeService(){
-            var claimsIdentity = (ClaimsIdentity)this.User.Identity;
-            var userID = Guid.Parse(claimsIdentity.FindFirst(ClaimTypes.NameIdentifier).Value);
-            return new EmployeeService(userID);
         }
     }
 }

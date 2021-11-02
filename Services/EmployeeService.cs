@@ -6,12 +6,14 @@ using SaintReverenceMVC.Data;
 using SaintReverenceMVC.Models.EmployeeModels;
 using System.Text;
 using SaintReverenceMVC.Services.ServiceContracts;
+using Microsoft.EntityFrameworkCore;
+using System.Threading.Tasks;
 
 namespace SaintReverenceMVC.Services
 {
     public class EmployeeService : IEmployeeService
     {       
-        public Task<bool> CreateEmployeeAsync(EmployeeCreate model)
+        public async Task<bool> CreateEmployeeAsync(EmployeeCreate model)
         {
             var hasher = HashAlgorithm.Create("SHA512");
             var entity = new Employee
@@ -43,7 +45,7 @@ namespace SaintReverenceMVC.Services
             }
         }
 
-        public Task<IEnumerable<EmployeeListItem>> GetAllEmployeesAsync(){
+        public async Task<IEnumerable<EmployeeListItem>> GetAllEmployeesAsync(){
             using (var ctx = new src_backendContext()){
                 var query = ctx.Employees
                     .Select(eli => new EmployeeListItem{
@@ -57,15 +59,16 @@ namespace SaintReverenceMVC.Services
                         EmployeeHoursPerWeek = eli.EmployeeHoursPerWeek,
                         EmployeeIsActive = eli.EmployeeIsActive,
                         EmployeePermissionLevel = eli.EmployeePermissionLevel
-                    });
+                    })
+                    .OrderByDescending(o => o.EmployeePermissionLevel).ThenBy(o => o.EmployeeName);
 
-                return await query.ToListAsync().OrderByDescending(o => o.EmployeePermissionLevel).ThenBy(o => o.EmployeeName);
+                return await query.ToListAsync();
             }
         }
 
-        public Task<EmployeeDetail> GetEmployeeByIDAsync(Guid id){
+        public EmployeeDetail GetEmployeeByID(Guid id){
             using (var ctx = new src_backendContext()){
-                var entity = await ctx.Employees.FindAsync(id);
+                var entity = ctx.Employees.Find(id);
 
                 return new EmployeeDetail{
                     EmployeeID = entity.EmployeeID,
@@ -83,7 +86,7 @@ namespace SaintReverenceMVC.Services
             }
         }
 
-        public Task<IEnumerable<EmployeeListItem>> GetEmployeesByBirthdayAsync(DateTime birthday){
+        public async Task<IEnumerable<EmployeeListItem>> GetEmployeesByBirthdayAsync(DateTime birthday){
             using (var ctx = new src_backendContext()){
                 var query = ctx.Employees
                     .Where(e => e.EmployeeBirthday == birthday)
@@ -98,13 +101,14 @@ namespace SaintReverenceMVC.Services
                         EmployeeHoursPerWeek = eli.EmployeeHoursPerWeek,
                         EmployeeIsActive = eli.EmployeeIsActive,
                         EmployeePermissionLevel = eli.EmployeePermissionLevel
-                    });
+                    })
+                    .OrderBy(o => o.EmployeeName);
 
-                return await query.ToListAsync().OrderBy(o => o.EmployeeName);
+                return await query.ToListAsync();
             }
         }
 
-        public Task<IEnumerable<EmployeeListItem>> GetEmployeesByStatusAsync(bool status){
+        public async Task<IEnumerable<EmployeeListItem>> GetEmployeesByStatusAsync(bool status){
             using (var ctx = new src_backendContext()){
                 var query = ctx.Employees
                     .Where(e => e.EmployeeIsActive == status)
@@ -119,13 +123,14 @@ namespace SaintReverenceMVC.Services
                         EmployeeHoursPerWeek = eli.EmployeeHoursPerWeek,
                         EmployeeIsActive = eli.EmployeeIsActive,
                         EmployeePermissionLevel = eli.EmployeePermissionLevel
-                    });
+                    })
+                    .OrderByDescending(o => o.EmployeePermissionLevel).ThenBy(o => o.EmployeeName);
 
-                return await query.ToListAsync().OrderByDescending(o => o.EmployeePermissionLevel).ThenBy(o => o.EmployeeName);
+                return await query.ToListAsync();
             }
         }
 
-        public Task<IEnumerable<EmployeeListItem>> GetEmployeesByPermissionLevelAsync(int level){
+        public async Task<IEnumerable<EmployeeListItem>> GetEmployeesByPermissionLevelAsync(int level){
             using (var ctx = new src_backendContext()){
                 var query = ctx.Employees
                     .Where(e => e.EmployeePermissionLevel == level)
@@ -140,13 +145,52 @@ namespace SaintReverenceMVC.Services
                         EmployeeHoursPerWeek = eli.EmployeeHoursPerWeek,
                         EmployeeIsActive = eli.EmployeeIsActive,
                         EmployeePermissionLevel = eli.EmployeePermissionLevel
-                    });
+                    })
+                    .OrderByDescending(o => o.EmployeePermissionLevel).ThenBy(o => o.EmployeeName);
 
-                return await query.ToListAsync().OrderByDescending(o => o.EmployeePermissionLevel).ThenBy(o => o.EmployeeName);
+                return await query.ToListAsync();
             }
         }
 
-        public Task<bool> UpdateEmployeeAsync(EmployeeEdit model){
+        public async Task<IEnumerable<EmployeeListItem>> GetNewEmployeesAsync(){
+            using (var ctx = new src_backendContext()){
+                var query = ctx.Employees
+                    .Where(e => e.EmployeeHireDate <= DateTimeOffset.Now - new TimeSpan(30, 0, 0, 0))
+                    .Select(eli => new EmployeeListItem{
+                        EmployeeID = eli.EmployeeID,
+                        EmployeeName = eli.EmployeeFirstName + " " + eli.EmployeeMiddleName + " " + eli.EmployeeLastName,
+                        EmployeeBirthday = eli.EmployeeBirthday,
+                        EmployeeEmail = eli.EmployeeEmail,
+                        EmployeePhone = eli.EmployeePhone,
+                        EmployeeHireDate = eli.EmployeeHireDate,
+                        EmployeeSalaryPerYear = eli.EmployeeSalaryPerYear,
+                        EmployeeHoursPerWeek = eli.EmployeeHoursPerWeek,
+                        EmployeeIsActive = eli.EmployeeIsActive,
+                        EmployeePermissionLevel = eli.EmployeePermissionLevel
+                    })
+                    .OrderByDescending(e => e.EmployeeHireDate);
+
+                if (query != null){
+                    return await query.ToListAsync();
+                }
+
+                return await ctx.Employees.Select(eli => new EmployeeListItem{
+                    EmployeeID = eli.EmployeeID,
+                        EmployeeName = eli.EmployeeFirstName + " " + eli.EmployeeMiddleName + " " + eli.EmployeeLastName,
+                        EmployeeBirthday = eli.EmployeeBirthday,
+                        EmployeeEmail = eli.EmployeeEmail,
+                        EmployeePhone = eli.EmployeePhone,
+                        EmployeeHireDate = eli.EmployeeHireDate,
+                        EmployeeSalaryPerYear = eli.EmployeeSalaryPerYear,
+                        EmployeeHoursPerWeek = eli.EmployeeHoursPerWeek,
+                        EmployeeIsActive = eli.EmployeeIsActive,
+                        EmployeePermissionLevel = eli.EmployeePermissionLevel
+                })
+                .OrderByDescending(e => e.EmployeeHireDate).Take(10).ToListAsync();
+            }
+        }
+
+        public async Task<bool> UpdateEmployeeAsync(EmployeeEdit model){
             using (var ctx = new src_backendContext()){
                 var entity = ctx.Employees.Find(model.EmployeeID);
 
@@ -171,7 +215,7 @@ namespace SaintReverenceMVC.Services
             }            
         }
 
-        public Task<bool> DeleteEmployeeAsync(Guid id){
+        public async Task<bool> DeleteEmployeeAsync(Guid id){
             using (var ctx = new src_backendContext()){
                 var entity = ctx.Employees.Find(id);
                 ctx.Employees.Remove(entity);

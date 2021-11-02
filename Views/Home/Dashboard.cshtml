@@ -6,54 +6,130 @@
 
 <section id="dashCollections">
     <div class="dashViewer">
-        @foreach (var collectionItem in Model.AllCollections)
-        {
-            // generate list of collections
-        }
+        <table class="dashTable">
+            <th class="collectionHeaderCell">Collection</th>
+            <th class="collectionHeaderCell">Date Published</th>
+            <th class="collectionHeaderCell">Date Ending</th>
+            @foreach (var collection in Model.AllCollections)
+            {
+                <td class="collectionDataCell"><a asp-action="Details" asp-controller="Collection" asp-route-id="@collection.CollectionID">@collection.CollectionName</a></td>
+                <td class="collectionDataCell">@collection.PublishDate</td>
+                <td class="collectionDataCell"><a asp-action="IndexByEndDate">@collection.EndDate</a></td>
+            }
+        </table>
     </div>
 </section>
 
 <section id="dashCustomers">
     <div class="dashViewer">
-        @foreach (var customerItem in Model.TopCustomers)
-        {
-            // generate list of top 10 customers by dollars spent
-        }
+        <table class="dashTable">
+            <th class="customerHeaderCell">Customer</th>
+            <th class="customerHeaderCell">Birthday</th>
+            <th class="customerHeaderCell">Email Address</th>
+            <th class="customerHeaderCell">&#35; of Orders</th>
+            <th class="customerHeaderCell">Total &#36; Spent</th>
+            @foreach (var customer in Model.TopCustomers)
+            {
+                <td class="customerDataCell"><a asp-action="Details" asp-controller="Customer" asp-route-id="@customer.CustomerID">@customer.CustomerName</td>
+                <td class="customerDataCell"><a asp-action="IndexByBirthday" asp-controller="Customer" asp-route-birthday="@customer.CustomerBirthday">@customer.CustomerBirthday</a></td>
+                <td class="customerDataCell">@customer.CustomerEmail</td>
+                <td class="customerDataCell">@customer.CustomerOrderCount</td>
+                <td class="customerDataCell"><a asp-action="IndexByVIP" asp-controller="Customer">@customer.CustomerOrderCount</a></td>
+            }
+        </table>
     </div>
 </section>
 
 <section id="dashEmployees">
     <div class="dashViewer">
-        @foreach (var employeeItem in Model.NewEmployees)
-        {
-            // generate list of all new hires within the past month
-        }
+        <table class="dashTable">
+            <th class="employeeHeaderCell">Employee</th>
+            <th class="employeeHeaderCell">Birthday</th>
+            <th class="employeeHeaderCell">Email Address</th>
+            <th class="employeeHeaderCell">Annual Salary</th>
+            <th class="employeeHeaderCell">Active Employee&#63;</th>
+            <th class="employeeHeaderCell">Employee Level</th>
+            <th class="employeeHeaderCell">Hire Date</th>
+            @foreach (var employee in Model.NewEmployees)
+            {
+                <td class="employeeDataCell"><a asp-action="Details" asp-controller="Employee" asp-route-id="@employee.EmployeeID">@employee.EmployeeName</a></td>
+                <td class="employeeDataCell"><a asp-action="IndexByBirthday" asp-controller="Employee" asp-route-birthday="@employee.EmployeeBirthday">@employee.EmployeeBirthday</a></td>
+                <td class="employeeDataCell">@employee.EmployeeEmail</td>
+                <td class="employeeDataCell">@employee.EmployeeSalaryPerYear</td>
+                <td class="employeeDataCell"><a asp-action="IndexByStatus" asp-controller="Employee" asp-route-status="@employee.EmployeeIsActive">@employee.EmployeeIsActive.ToString()</a></td>
+                <td class="employeeDataCell">@employee.EmployeeHireDate</td>
+            }
+        </table>
     </div>
 </section>
 
 <section id="dashInvoices">
     <div class="dashViewer">
-        @foreach (var invoiceItem in Model.UnpaidInvoices)
-        {
-            // generate list of all unpaid invoices
-        }
+        <table class="dashTable">
+            <th class="invoiceHeaderCell">Invoice Number</th>
+            <th class="invoiceHeaderCell">Vendor</th>
+            <th class="invoiceHeaderCell">Total Cost</th>
+            <th class="invoiceHeaderCell">Due Date</th>
+            <th class="invoiceHeaderCell">Invoice Paid&#63;</th>
+            <th class="invoiceHeaderCell">Date Paid</th>
+            @foreach (var invoice in Model.UnpaidInvoices)
+            {
+                <td class="invoiceDataCell"><a asp-action="Details" asp-controller="Invoice" asp-route-id="@invoice.InvoiceID">@invoice.InvoiceID</a></td>
+                <td class="invoiceDataCell"><a asp-action="IndexByVendor" asp-controller="Invoice" asp-route-vendorID="@invoice.VendorID">@Model.Vendors.Single(v => v.VendorID == invoice.VendorID).VendorName</a></td>
+                <td class="invoiceDataCell">@invoice.TotalCost</td>
+                <td class="invoiceDataCell">@invoice.DueDate</td>
+                <td class="invoiceDataCell"><a asp-action="IndexByStatus" asp-controller="Invoice" asp-route-status="@invoice.InvoiceIsPaid">@invoice.InvoiceIsPaid.ToString()</a></td>
+                <td class="invoiceDataCell">@invoice.PaidDate</td>
+            }
+        </table>
     </div>
 </section>
 
 <section id="dashOrders">
     <div class="dashViewer">
-        @foreach (var orderItem in Model.UnfulfilledOrders)
-        {
-             // generate list of all orders needing to be packed/shipped
-        }
+        <table class="dashTable">
+            <th class="orderHeaderCell">Order Number</th>
+            <th class="orderHeaderCell">Customer</th>
+            <th class="orderHeaderCell">Order Date</th>
+            <th class="orderHeaderCell">Order Status</th>
+            <th class="orderHeaderCell">Order Total</th>
+            @foreach(var order in @Model.UnfulfilledOrders)
+            {
+                <td class="orderDataCell"><a asp-action="Details" asp-controller="Order" asp-route-id="@order.OrderID">@order.OrderID</a></td>
+                <td class="orderDataCell"><a asp-action="Details" asp-controller="Customer" asp-route-id="@order.CustomerID">@{
+                    var customerForOrder = Model.Customers.Single(c => c.CustomerID == order.CustomerID);
+                    var name = $"{customerForOrder.CustomerFirstName} {customerForOrder.CustomerMiddleName[0]} {customerForOrder.CustomerLastName}";
+                }
+                @name
+                </a></td>
+                <td class="orderDataCell"><a asp-action="IndexByOrderDate" asp-controller="Order" asp-route-orderDate="@order.OrderDate">@order.OrderDate</a></td>
+                <td class="orderDataCell"><a asp-action="IndexByOrderStatus" asp-controller="Order" asp-route-orderStatus="@order.OrderStatus">@Model.Statuses.Single(s => s.StatusID == order.OrderStatus).StatusName</a></td>
+                <td class="orderDataCell">@order.OrderTotal</td>
+            }
+        </table>
     </div>
-</section>"
+</section>
 
 <section id="dashProducts">
     <div class="dashViewer">
-        @foreach (var productItem in Model.LowInventoryProducts)
-        {
-            // generate list of products with less than 20% stock available
-        }
+        <table class="dashTable">
+            <th class="productHeaderCell">Product Name</th>
+            <th class="productHeaderCell">Selling Price</th>
+            <th class="productHeaderCell">&#35; On Hand</th>
+            <th class="productHeaderCell">Storage Capacity</th>
+            <th class="productHeaderCell">Turnaround Time</th>
+            <th class="productHeaderCell">Category</th>
+            <th class="productHeaderCell">Collection</th>
+            @foreach (var product in Model.LowInventoryProducts)
+            {
+                <td class="productDataCell"><a asp-action="Details" asp-controller="Product" asp-route-id="@product.ProductID">@product.ProductName</a></td>
+                <td class="productDataCell">@product.ProductSellPrice</td>
+                <td class="productDataCell">@product.ProductInventoryCount</td>
+                <td class="productDataCell">@product.ProductMaxInventoryCount</td>
+                <td class="productDataCell">@product.ProductTurnaroundTime</td>
+                <td class="productDataCell"><a asp-action="IndexByCategory" asp-controller="Product" asp-route-categoryID="@product.CategoryID">@Model.Categories.Single(c => c.CategoryID == product.CategoryID).CategoryName</a></td>
+                <td class="productDataCell"><a asp-action="IndexByCollection" asp-controller="Product" asp-route-collectionID="@product.CollectionID">@Model.AllCollections.Single(c => c.CollectionID == product.CollectionID).CollectionName</a></td>
+            }
+        </table>
     </div>
 </section>

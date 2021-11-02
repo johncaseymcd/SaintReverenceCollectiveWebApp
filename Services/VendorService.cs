@@ -4,10 +4,12 @@ using System.Linq;
 using SaintReverenceMVC.Data;
 using SaintReverenceMVC.Models.VendorModels;
 using SaintReverenceMVC.Services.ServiceContracts;
+using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
 
 namespace SaintReverenceMVC.Services{
     public class VendorService : IVendorService{
-        public bool CreateVendor(VendorCreate model){
+        public async Task<bool> CreateVendorAsync(VendorCreate model){
             var entity = new Vendor{
                 VendorName = model.VendorName,
                 VendorEmail = model.VendorEmail,
@@ -23,11 +25,11 @@ namespace SaintReverenceMVC.Services{
 
             using (var ctx = new src_backendContext()){
                 ctx.Vendors.Add(entity);
-                return ctx.SaveChanges() == 1;
+                return await ctx.SaveChangesAsync() == 1;
             }
         }
 
-        public IEnumerable<VendorListItem> GetAllVendors(){
+        public async Task<IEnumerable<VendorListItem>> GetAllVendorsAsync(){
             using (var ctx = new src_backendContext()){
                 var query = ctx.Vendors
                     .Select(vli => new VendorListItem{
@@ -35,9 +37,10 @@ namespace SaintReverenceMVC.Services{
                         VendorName = vli.VendorName,
                         VendorWebsite = vli.VendorWebsite,
                         VendorEmail = vli.VendorEmail
-                    });
+                    })
+                    .OrderBy(o => o.VendorName);
 
-                return query.ToList().OrderBy(o => o.VendorName);
+                return await query.ToListAsync();
             }
         }
 
@@ -56,7 +59,7 @@ namespace SaintReverenceMVC.Services{
             }
         }
 
-        public bool UpdateVendor(VendorEdit model){
+        public async Task<bool> UpdateVendorAsync(VendorEdit model){
             using (var ctx = new src_backendContext()){
                 var entity = ctx.Vendors.Find(model.VendorID);
 
@@ -72,15 +75,15 @@ namespace SaintReverenceMVC.Services{
                 entity.VendorAddressPostalcode = model.VendorAddressPostalCode;
                 entity.VendorAddressCountry = model.VendorAddressCountry;
 
-                return ctx.SaveChanges() == 1;
+                return await ctx.SaveChangesAsync() == 1;
             }
         }
 
-        public bool DeleteVendor(int id){
+        public async Task<bool> DeleteVendorAsync(int id){
             using (var ctx = new src_backendContext()){
                 var entity = ctx.Vendors.Find(id);
                 ctx.Vendors.Remove(entity);
-                return ctx.SaveChanges() == 1;
+                return await ctx.SaveChangesAsync() == 1;
             }
         }
     }

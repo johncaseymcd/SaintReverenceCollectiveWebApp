@@ -15,5 +15,10 @@ namespace SaintReverenceMVC.Models.DashboardModels{
         public IEnumerable<InvoiceListItem> UnpaidInvoices { get; set; }
         public IEnumerable<OrderListItem> UnfulfilledOrders { get; set; }
         public IEnumerable<ProductListItem> LowInventoryProducts { get; set; }
+
+        public virtual ICollection<Vendor> Vendors { get; set; }
+        public virtual ICollection<Status> Statuses { get; set; }
+        public virtual ICollection<Customer> Customers { get; set; }
+        public virtual ICollection<Category> Categories { get; set; }
     }
 }

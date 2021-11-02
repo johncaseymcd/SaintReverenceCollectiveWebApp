@@ -1,14 +1,15 @@
 using System;
 using SaintReverenceMVC.Models.CollectionModels;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace SaintReverenceMVC.Services.ServiceContracts{
     public interface ICollectionService{
-        bool CreateCollection(CollectionCreate model);
-        IEnumerable<CollectionListItem> GetAllCollections();
+        Task<bool> CreateCollectionAsync(CollectionCreate model);
+        Task<IEnumerable<CollectionListItem>> GetAllCollectionsAsync();
         CollectionDetail GetCollectionByID(int id);
-        IEnumerable<CollectionListItem> GetCollectionsEndingSoon();
-        bool UpdateCollection(CollectionEdit model);
-        bool DeleteCollection(int id);
+        Task<IEnumerable<CollectionListItem>> GetCollectionsEndingSoonAsync();
+        Task<bool> UpdateCollectionAsync(CollectionEdit model);
+        Task<bool> DeleteCollectionAsync(int id);
     }
 }

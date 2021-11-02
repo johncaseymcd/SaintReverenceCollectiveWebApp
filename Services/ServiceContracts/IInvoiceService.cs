@@ -1,17 +1,18 @@
 using System;
 using System.Collections.Generic;
 using SaintReverenceMVC.Models.InvoiceModels;
+using System.Threading.Tasks;
 
 namespace SaintReverenceMVC.Services.ServiceContracts{
     public interface IInvoiceService{
-        bool CreateInvoice(InvoiceCreate model);
-        IEnumerable<InvoiceListItem> GetAllInvoices();
+        Task<bool> CreateInvoiceAsync(InvoiceCreate model);
+        Task<IEnumerable<InvoiceListItem>> GetAllInvoicesAsync();
         InvoiceDetail GetInvoiceByID(Guid id);
-        IEnumerable<InvoiceListItem> GetInvoicesByPaidStatus(bool status);
-        IEnumerable<InvoiceListItem> GetInvoicesDueSoon();
-        IEnumerable<InvoiceListItem> GetOverdueInvoices();
-        IEnumerable<InvoiceListItem> GetInvoicesByVendorID(int vendorID);
-        bool UpdateInvoice(InvoiceEdit model);
-        bool DeleteInvoice(Guid id);
+        Task<IEnumerable<InvoiceListItem>> GetInvoicesByPaidStatusAsync(bool status);
+        Task<IEnumerable<InvoiceListItem>> GetInvoicesDueSoonAsync();
+        Task<IEnumerable<InvoiceListItem>> GetOverdueInvoicesAsync();
+        Task<IEnumerable<InvoiceListItem>> GetInvoicesByVendorIDAsync(int vendorID);
+        Task<bool> UpdateInvoiceAsync(InvoiceEdit model);
+        Task<bool> DeleteInvoiceAsync(Guid id);
     }
 }

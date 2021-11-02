@@ -3,32 +3,33 @@ using SaintReverenceMVC.Models.DashboardModels;
 using SaintReverenceMVC.Services;
 using System.Security.Claims;
 using System;
-using System.Linq;
+using SaintReverenceMVC.Services.ServiceContracts;
+using System.Threading.Tasks;
 
 namespace SaintReverenceMVC.Controllers{
     public class DashboardController : Controller{
-        // Dependency Injection of services goes here
+        ICollectionService collectionService = new CollectionService();
+        ICustomerService customerService = new CustomerService();
+        IEmployeeService employeeService = new EmployeeService();
+        IInvoiceService invoiceService = new InvoiceService();
+        IOrderService orderService = new OrderService();
+        IProductService productService = new ProductService();
+
 
         // GET: Dashboard
-        public ActionResult Index(){
+        public async Task<IActionResult> Index(){
             var claimsIdentity = (ClaimsIdentity)this.User.Identity;
             var userID = Guid.Parse(claimsIdentity.FindFirst(ClaimTypes.NameIdentifier).Value);
             
-            CollectionService collectionSvc = new();
-            CustomerService customerSvc = new();
-            EmployeeService employeeSvc = new(userID);
-            InvoiceService invoiceSvc = new();
-            OrderService orderSvc = new(userID);
-            ProductService productSvc = new();
-
-            var model = new DashboardViewModel();
-            model.AllCollections = collectionSvc.GetAllCollections();
-            model.TopCustomers = customerSvc.GetVIPCustomers().Take(10);
-            model.NewEmployees = employeeSvc.GetAllEmployees().OrderByDescending(ehd => ehd.EmployeeHireDate);
-            model.UnpaidInvoices = invoiceSvc.GetInvoicesByPaidStatus(false);
-            model.UnfulfilledOrders = orderSvc.GetAllOrders().Where(os => os.OrderStatus == 1 || os.OrderStatus == 2).OrderBy(od => od.OrderDate);
-            model.LowInventoryProducts = productSvc.GetAllProducts().Where(pc => pc.ProductInventoryCount <= (pc.ProductMaxInventoryCount * 0.2)).OrderBy(pc => pc.ProductInventoryCount);
-
+            DashboardService service = new(collectionService, customerService, employeeService, invoiceService, orderService, productService);
+            DashboardViewModel model = new();
+            
+            model.AllCollections = await service.DisplayAllCollectionsAsync();
+            model.TopCustomers = await service.DisplayTopCustomersAsync();
+            model.NewEmployees = await service.DisplayNewEmployeesAsync();
+            model.UnpaidInvoices = await service.DisplayUnpaidInvoicesAsync();
+            model.UnfulfilledOrders = await service.DisplayUnfulfilledOrdersAsync();
+            model.LowInventoryProducts = await service.DisplayLowInventoryProductsAsync();
             return View(model);
         }
 

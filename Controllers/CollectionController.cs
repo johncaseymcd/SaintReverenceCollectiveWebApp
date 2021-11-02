@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Mvc;
 using SaintReverenceMVC.Models.CollectionModels;
 using SaintReverenceMVC.Services;
 using SaintReverenceMVC.Services.ServiceContracts;
+using System.Threading.Tasks;
 
 namespace SaintReverenceMVC.Controllers{
     public class CollectionController : Controller{
@@ -11,7 +12,7 @@ namespace SaintReverenceMVC.Controllers{
         }
 
         // GET: Index
-        public Task<IActionResult> Index(){
+        public async Task<IActionResult> Index(){
             var model = await _service.GetAllCollectionsAsync();
             return View(model);
         }
@@ -22,7 +23,7 @@ namespace SaintReverenceMVC.Controllers{
         }
 
         // POST: Create
-        public Task<IActionResult> Create(CollectionCreate model){
+        public async Task<IActionResult> Create(CollectionCreate model){
             if (!ModelState.IsValid) return View(model);
 
             if (await _service.CreateCollectionAsync(model)){
@@ -35,19 +36,19 @@ namespace SaintReverenceMVC.Controllers{
         }
 
         // GET: Details
-        public Task<IActionResult> Details(int id){
-            var model = await _service.GetCollectionByIDAsync(id);
+        public IActionResult Details(int id){
+            var model = _service.GetCollectionByID(id);
             return View(model);
         }
 
-        public Task<IActionResult> IndexByEndDate(){
+        public async Task<IActionResult> IndexByEndDate(){
             var model = await _service.GetCollectionsEndingSoonAsync();
             return View(model);
         }
 
         // GET: Edit
-        public Task<IActionResult> Edit(int id){
-            var details = await _service.GetCollectionByIDAsync(id);
+        public IActionResult Edit(int id){
+            var details = _service.GetCollectionByID(id);
             var model = new CollectionEdit{
                 CollectionID = details.CollectionID,
                 CollectionName = details.CollectionName,
@@ -60,7 +61,7 @@ namespace SaintReverenceMVC.Controllers{
         }
 
         // POST: Edit
-        public Task<IActionResult> Edit(int id, CollectionEdit model){
+        public async Task<IActionResult> Edit(int id, CollectionEdit model){
             if (!ModelState.IsValid) return View(model);
 
             if (model.CollectionID != id){
@@ -79,14 +80,14 @@ namespace SaintReverenceMVC.Controllers{
 
         // GET: Delete
         [ActionName("Delete")]
-        public Task<IActionResult> Delete(int id){
-            var model = await _service.GetCollectionByIDAsync(id);
+        public IActionResult Delete(int id){
+            var model = _service.GetCollectionByID(id);
             return View(model);
         }
 
         // POST: Delete
         [ActionName("Delete")]
-        public Task<IActionResult> DeleteCollection(int id){
+        public async Task<IActionResult> DeleteCollection(int id){
             await _service.DeleteCollectionAsync(id);
             TempData["SaveResult"] = "Collection has been successfully deleted!";
             return Redirect(nameof(Index));

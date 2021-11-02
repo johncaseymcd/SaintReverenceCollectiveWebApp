@@ -2,12 +2,13 @@ using System;
 using Microsoft.AspNetCore.Mvc;
 using SaintReverenceMVC.Models.InvoiceModels;
 using SaintReverenceMVC.Services;
+using System.Threading.Tasks;
 
 namespace SaintReverenceMVC.Controllers{
     public class InvoiceController : Controller{
-        public IActionResult Index(){
+        public async Task<IActionResult> Index(){
             var svc = new InvoiceService();
-            var model = svc.GetAllInvoices();
+            var model = await svc.GetAllInvoicesAsync();
             return View(model);
         }
 
@@ -17,11 +18,11 @@ namespace SaintReverenceMVC.Controllers{
         }
 
         // POST: Create
-        public IActionResult Create(InvoiceCreate model){
+        public async Task<IActionResult> Create(InvoiceCreate model){
             if (!ModelState.IsValid) return View(model);
                         
             var svc = new InvoiceService();
-            if (svc.CreateInvoice(model)){
+            if (await svc.CreateInvoiceAsync(model)){
                 TempData["SaveResult"] = "Invoice has been successfully created!";
                 return Redirect(nameof(Index));
             }
@@ -36,27 +37,27 @@ namespace SaintReverenceMVC.Controllers{
             return View(model);
         }        
 
-        public IActionResult IndexByStatus(bool status){
+        public async Task<IActionResult> IndexByStatus(bool status){
             var svc = new InvoiceService();
-            var model = svc.GetInvoicesByPaidStatus(status);
+            var model = await svc.GetInvoicesByPaidStatusAsync(status);
             return View(model);
         }
 
-        public IActionResult IndexByDueSoon(){
+        public async Task<IActionResult> IndexByDueSoon(){
             var svc = new InvoiceService();
-            var model = svc.GetInvoicesDueSoon();
+            var model = await svc.GetInvoicesDueSoonAsync();
             return View(model);
         }
 
-        public IActionResult IndexByPastDue(){
+        public async Task<IActionResult> IndexByPastDue(){
             var svc = new InvoiceService();
-            var model = svc.GetOverdueInvoices();
+            var model = await svc.GetOverdueInvoicesAsync();
             return View(model);
         }
 
-        public IActionResult IndexByVendor(int vendorID){
+        public async Task<IActionResult> IndexByVendor(int vendorID){
             var svc = new InvoiceService();
-            var model = svc.GetInvoicesByVendorID(vendorID);
+            var model = await svc.GetInvoicesByVendorIDAsync(vendorID);
             return View(model);
         }
 
@@ -73,7 +74,7 @@ namespace SaintReverenceMVC.Controllers{
         }
 
         // POST: Edit
-        public IActionResult Edit(Guid id, InvoiceEdit model){
+        public async Task<IActionResult> Edit(Guid id, InvoiceEdit model){
             if (!ModelState.IsValid) return View(model);
             if (model.InvoiceID != id){
                 ModelState.AddModelError("InvoiceIdMismatch", "Given ID parameter does not match existing database ID, please try again.");
@@ -81,7 +82,7 @@ namespace SaintReverenceMVC.Controllers{
             }
 
             var svc = new InvoiceService();
-            if (svc.UpdateInvoice(model)){
+            if (await svc.UpdateInvoiceAsync(model)){
                 TempData["SaveResult"] = "Invoice information has been successfully updated!";
                 return Redirect(nameof(Index));
             }
@@ -100,9 +101,9 @@ namespace SaintReverenceMVC.Controllers{
 
         // POST: Delete
         [ActionName("Delete")]
-        public IActionResult DeleteInvoice(Guid id){
+        public async Task<IActionResult> DeleteInvoice(Guid id){
             var svc = new InvoiceService();
-            svc.DeleteInvoice(id);
+            await svc.DeleteInvoiceAsync(id);
             TempData["SaveResult"] = "Invoice has been successfully deleted!";
             return Redirect(nameof(Index));
         }

@@ -2,12 +2,12 @@ using System;
 using Microsoft.AspNetCore.Mvc;
 using SaintReverenceMVC.Models.ProductModels;
 using SaintReverenceMVC.Services;
-
+using System.Threading.Tasks;
 namespace SaintReverenceMVC.Controllers{
     public class ProductController : Controller{
-        public IActionResult Index(){
+        public async Task<IActionResult> Index(){
             var svc = new ProductService();
-            var model = svc.GetAllProducts();
+            var model = await svc.GetAllProductsAsync();
             return View(model);
         }
 
@@ -17,11 +17,11 @@ namespace SaintReverenceMVC.Controllers{
         }
 
         // POST: Create
-        public IActionResult Create(ProductCreate model){
+        public async Task<IActionResult> Create(ProductCreate model){
             if (!ModelState.IsValid) return View(model);
 
             var svc = new ProductService();
-            if (svc.CreateProduct(model)){
+            if (await svc.CreateProductAsync(model)){
                 TempData["SaveResult"] = "Product has been successfully created!";
                 return Redirect(nameof(Index));
             }
@@ -36,33 +36,33 @@ namespace SaintReverenceMVC.Controllers{
             return View(model);
         }
 
-        public IActionResult IndexByInStock(){
+        public async Task<IActionResult> IndexByInStock(){
             var svc = new ProductService();
-            var model = svc.GetProductsByInStock();
+            var model = await svc.GetProductsByInStockAsync();
             return View(model);
         }
 
-        public IActionResult IndexByStatus(bool status){
+        public async Task<IActionResult> IndexByStatus(bool status){
             var svc = new ProductService();
-            var model = svc.GetProductsByStatus(status);
+            var model = await svc.GetProductsByStatusAsync(status);
             return View(model);
         }
 
-        public IActionResult IndexByCategory(int categoryID){
+        public async Task<IActionResult> IndexByCategory(int categoryID){
             var svc = new ProductService();
-            var model = svc.GetProductsByCategory(categoryID);
+            var model = await svc.GetProductsByCategoryAsync(categoryID);
             return View(model);
         }
 
-        public IActionResult IndexByCollection(int collectionID){
+        public async Task<IActionResult> IndexByCollection(int collectionID){
             var svc = new ProductService();
-            var model = svc.GetProductsByCollection(collectionID);
+            var model = await svc.GetProductsByCollectionAsync(collectionID);
             return View(model);
         }
 
-        public IActionResult AddProductToOrder(int productID, Guid orderID){
+        public async Task<IActionResult> AddProductToOrder(int productID, Guid orderID){
             var svc = new ProductService();
-            if(svc.AddProductToOrder(productID, orderID)){
+            if(await svc.AddProductToOrderAsync(productID, orderID)){
                 TempData["SaveResult"] = "Product has been successfully added to order!";
                 return Redirect(nameof(Index));
             }
@@ -87,7 +87,7 @@ namespace SaintReverenceMVC.Controllers{
         }
 
         // POST: Edit
-        public IActionResult Edit(int id, ProductEdit model){
+        public async Task<IActionResult> Edit(int id, ProductEdit model){
             if (!ModelState.IsValid) return View(model);
             if(model.ProductID != id){
                 ModelState.AddModelError("ProductIdMismatch", "Given ID parameter does not match existing database ID, please try again.");
@@ -95,7 +95,7 @@ namespace SaintReverenceMVC.Controllers{
             }
 
             var svc = new ProductService();
-            if(svc.UpdateProduct(model)){
+            if(await svc.UpdateProductAsync(model)){
                 TempData["SaveResult"] = "Product information has been successfully updated!";
                 return Redirect(nameof(Index));
             }
@@ -114,9 +114,9 @@ namespace SaintReverenceMVC.Controllers{
 
         // POST: Delete
         [ActionName("Delete")]
-        public IActionResult DeleteProduct(int id){
+        public async Task<IActionResult> DeleteProduct(int id){
             var svc = new ProductService();
-            svc.DeleteProduct(id);
+            await svc.DeleteProductAsync(id);
             TempData["SaveResult"] = "Product has been successfully deleted!";
             return Redirect(nameof(Index));
         }

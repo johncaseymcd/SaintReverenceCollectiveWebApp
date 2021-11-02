@@ -2,12 +2,13 @@ using System;
 using Microsoft.AspNetCore.Mvc;
 using SaintReverenceMVC.Models.PackageModels;
 using SaintReverenceMVC.Services;
+using System.Threading.Tasks;
 
 namespace SaintReverenceMVC.Controllers{
     public class PackageController : Controller{
-        public IActionResult Index(){
+        public async Task<IActionResult> Index(){
             var svc = new PackageService();
-            var model = svc.GetAllPackages();
+            var model = await svc.GetAllPackagesAsync();
             return View(model);
         }
 
@@ -17,11 +18,11 @@ namespace SaintReverenceMVC.Controllers{
         }
 
         // POST: Create
-        public IActionResult Create(PackageCreate model){
+        public async Task<IActionResult> Create(PackageCreate model){
             if (!ModelState.IsValid) return View(model);
 
             var svc = new PackageService();
-            if (svc.CreatePackage(model)){
+            if (await svc.CreatePackageAsync(model)){
                 TempData["SaveResult"] = "Package has been successfully created!";
                 return Redirect(nameof(Index));
             }
@@ -48,7 +49,7 @@ namespace SaintReverenceMVC.Controllers{
         }
 
         // POST: Edit
-        public IActionResult Edit(int id, PackageEdit model){
+        public async Task<IActionResult> Edit(int id, PackageEdit model){
             if (!ModelState.IsValid) return View(model);
             if (model.PackageID != id){
                 ModelState.AddModelError("PackageIdMismatch", "Given ID parameter does not match existing database ID, please try again.");
@@ -56,7 +57,7 @@ namespace SaintReverenceMVC.Controllers{
             }
 
             var svc = new PackageService();
-            if (svc.UpdatePackage(model)){
+            if (await svc.UpdatePackageAsync(model)){
                 TempData["SaveResult"] = "Package information was successfully updated!";
                 return Redirect(nameof(Index));
             }
@@ -75,9 +76,9 @@ namespace SaintReverenceMVC.Controllers{
 
         // POST: Delete
         [ActionName("Delete")]
-        public IActionResult DeletePackage(int id){
+        public async Task<IActionResult> DeletePackage(int id){
             var svc = new PackageService();
-            svc.DeletePackage(id);
+            await svc.DeletePackageAsync(id);
             TempData["SaveResult"] = "Package has been successfully deleted!";
             return Redirect(nameof(Index));
         }

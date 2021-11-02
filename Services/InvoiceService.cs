@@ -4,12 +4,14 @@ using System.Collections.Generic;
 using SaintReverenceMVC.Data;
 using SaintReverenceMVC.Models.InvoiceModels;
 using SaintReverenceMVC.Services.ServiceContracts;
+using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
 
 namespace SaintReverenceMVC.Services
 {
     public class InvoiceService : IInvoiceService
     {
-        public bool CreateInvoice(InvoiceCreate model){
+        public async Task<bool> CreateInvoiceAsync(InvoiceCreate model){
             var entity = new Invoice{
                 CostOfProducts = model.CostOfProducts,
                 TaxPaid = model.TaxPaid,
@@ -24,11 +26,11 @@ namespace SaintReverenceMVC.Services
 
             using (var ctx = new src_backendContext()){
                 ctx.Invoices.Add(entity);
-                return ctx.SaveChanges() == 1;
+                return await ctx.SaveChangesAsync() == 1;
             }
         }
 
-        public IEnumerable<InvoiceListItem> GetAllInvoices(){
+        public async Task<IEnumerable<InvoiceListItem>> GetAllInvoicesAsync(){
             using (var ctx = new src_backendContext()){
                 var query = ctx.Invoices
                     .Select(ili => new InvoiceListItem{
@@ -38,9 +40,10 @@ namespace SaintReverenceMVC.Services
                         InvoiceIsPaid = ili.InvoiceIsPaid,
                         PaidDate = ili.PaidDate,
                         VendorID = ili.VendorID
-                    });
+                    })
+                    .OrderBy(o => o.DueDate).ThenByDescending(o => o.TotalCost);
 
-                return query.ToList().OrderBy(o => o.DueDate).ThenByDescending(o => o.TotalCost);
+                return await query.ToListAsync();
             }
         }
 
@@ -61,7 +64,7 @@ namespace SaintReverenceMVC.Services
             }
         }
 
-        public IEnumerable<InvoiceListItem> GetInvoicesByPaidStatus(bool status){
+        public async Task<IEnumerable<InvoiceListItem>> GetInvoicesByPaidStatusAsync(bool status){
             using (var ctx = new src_backendContext()){
                 var query = ctx.Invoices
                     .Where(i => i.InvoiceIsPaid == status)
@@ -72,13 +75,14 @@ namespace SaintReverenceMVC.Services
                         InvoiceIsPaid = ili.InvoiceIsPaid,
                         PaidDate = ili.PaidDate,
                         VendorID = ili.VendorID
-                    });
+                    })
+                    .OrderBy(o => o.DueDate).ThenByDescending(o => o.TotalCost);
 
-                return query.ToList().OrderBy(o => o.DueDate).ThenByDescending(o => o.TotalCost);
+                return await query.ToListAsync();
             }
         }
 
-        public IEnumerable<InvoiceListItem> GetInvoicesDueSoon(){
+        public async Task<IEnumerable<InvoiceListItem>> GetInvoicesDueSoonAsync(){
             using (var ctx = new src_backendContext()){
                 var twoWeeks = DateTime.Now.AddDays(14);
                 var query = ctx.Invoices
@@ -90,13 +94,14 @@ namespace SaintReverenceMVC.Services
                         InvoiceIsPaid = ili.InvoiceIsPaid,
                         PaidDate = ili.PaidDate,
                         VendorID = ili.VendorID
-                    });
+                    })
+                    .OrderBy(o => o.DueDate).ThenByDescending(o => o.TotalCost);
 
-                return query.ToList().OrderBy(o => o.DueDate).ThenByDescending(o => o.TotalCost);
+                return await query.ToListAsync();
             }
         }
 
-        public IEnumerable<InvoiceListItem> GetOverdueInvoices(){
+        public async Task<IEnumerable<InvoiceListItem>> GetOverdueInvoicesAsync(){
             using (var ctx = new src_backendContext()){
                 var query = ctx.Invoices
                     .Where(i => i.DueDate <= DateTime.Now && i.InvoiceIsPaid == false)
@@ -107,13 +112,14 @@ namespace SaintReverenceMVC.Services
                         InvoiceIsPaid = ili.InvoiceIsPaid,
                         PaidDate = ili.PaidDate,
                         VendorID = ili.VendorID
-                    });
+                    })
+                    .OrderBy(o => o.DueDate).ThenByDescending(o => o.TotalCost);
 
-                return query.ToList().OrderBy(o => o.DueDate).ThenByDescending(o => o.TotalCost);
+                return await query.ToListAsync();
             }
         }
 
-        public IEnumerable<InvoiceListItem> GetInvoicesByVendorID(int vendorID){
+        public async Task<IEnumerable<InvoiceListItem>> GetInvoicesByVendorIDAsync(int vendorID){
             using (var ctx = new src_backendContext()){
                 var query = ctx.Invoices
                     .Where(i => i.VendorID == vendorID)
@@ -124,13 +130,14 @@ namespace SaintReverenceMVC.Services
                         InvoiceIsPaid = ili.InvoiceIsPaid,
                         PaidDate = ili.PaidDate,
                         VendorID = ili.VendorID
-                    });
+                    })
+                    .OrderBy(o => o.DueDate).ThenByDescending(o => o.TotalCost);
 
-                return query.ToList().OrderBy(o => o.DueDate).ThenByDescending(o => o.TotalCost);
+                return await query.ToListAsync();
             }
         }
 
-        public bool UpdateInvoice(InvoiceEdit model){
+        public async Task<bool> UpdateInvoiceAsync(InvoiceEdit model){
             using (var ctx = new src_backendContext()){
                 var entity = ctx.Invoices.Find(model.InvoiceID);
 
@@ -138,15 +145,15 @@ namespace SaintReverenceMVC.Services
                 entity.InvoiceIsPaid = model.InvoiceIsPaid;
                 entity.PaidDate = model.PaidDate;
 
-                return ctx.SaveChanges() == 1;
+                return await ctx.SaveChangesAsync() == 1;
             }
         }
 
-        public bool DeleteInvoice(Guid id){
+        public async Task<bool> DeleteInvoiceAsync(Guid id){
             using (var ctx = new src_backendContext()){
                 var entity = ctx.Invoices.Find(id);
                 ctx.Invoices.Remove(entity);
-                return ctx.SaveChanges() == 1;
+                return await ctx.SaveChangesAsync() == 1;
             }
         }
     }

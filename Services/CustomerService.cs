@@ -4,12 +4,14 @@ using System.Collections.Generic;
 using SaintReverenceMVC.Data;
 using SaintReverenceMVC.Models.CustomerModels;
 using SaintReverenceMVC.Services.ServiceContracts;
+using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
 
 namespace SaintReverenceMVC.Services
 {
     public class CustomerService : ICustomerService
     {
-        public Task<bool> CreateCustomerAsync(CustomerCreate model)
+        public async Task<bool> CreateCustomerAsync(CustomerCreate model)
         {
             var entity = new Customer
             {
@@ -35,7 +37,7 @@ namespace SaintReverenceMVC.Services
             }
         }
 
-        public Task<IEnumerable<CustomerListItem>> GetAllCustomersAsync()
+        public async Task<IEnumerable<CustomerListItem>> GetAllCustomersAsync()
         {
             using (var ctx = new src_backendContext())
             {
@@ -48,17 +50,18 @@ namespace SaintReverenceMVC.Services
                         CustomerEmail = cli.CustomerEmail,
                         CustomerOrderCount = cli.CustomerOrderCount,
                         CustomerOrderTotal = cli.CustomerOrderTotal
-                    });
+                    })
+                    .OrderBy(o => o.CustomerName);
 
-                return await query.ToListAsync().OrderBy(o => o.CustomerName);
+                return await query.ToListAsync();
             }
         }
 
-        public Task<CustomerDetail> GetCustomerByIDAsync(Guid id)
+        public CustomerDetail GetCustomerByID(Guid id)
         {
             using (var ctx = new src_backendContext())
             {
-                var entity = await ctx.Customers.FindAsync(id);
+                var entity = ctx.Customers.Find(id);
                 var total = 0.00m;
                 foreach (var order in entity.Orders)
                 {
@@ -79,7 +82,7 @@ namespace SaintReverenceMVC.Services
             }
         }
 
-        public Task<IEnumerable<CustomerListItem>> GetCustomersByBirthdayAsync(DateTime birthday)
+        public async Task<IEnumerable<CustomerListItem>> GetCustomersByBirthdayAsync(DateTime birthday)
         {
             using (var ctx = new src_backendContext())
             {
@@ -93,13 +96,14 @@ namespace SaintReverenceMVC.Services
                         CustomerEmail = cli.CustomerEmail,
                         CustomerOrderCount = cli.CustomerOrderCount,
                         CustomerOrderTotal = cli.CustomerOrderTotal
-                    });
+                    })
+                    .OrderBy(o => o.CustomerName);
 
-                return await query.ToListAsync().OrderBy(o => o.CustomerName);
+                return await query.ToListAsync();
             }
         }
 
-        public Task<IEnumerable<CustomerListItem>> GetVIPCustomersAsync()
+        public async Task<IEnumerable<CustomerListItem>> GetVIPCustomersAsync()
         {
             using (var ctx = new src_backendContext())
             {
@@ -113,13 +117,14 @@ namespace SaintReverenceMVC.Services
                         CustomerEmail = cli.CustomerEmail,
                         CustomerOrderCount = cli.CustomerOrderCount,
                         CustomerOrderTotal = cli.CustomerOrderTotal
-                    });
+                    })
+                    .OrderBy(o => o.CustomerOrderTotal);
 
-                return await query.ToListAsync().OrderByDescending(o => o.CustomerOrderTotal);
+                return await query.ToListAsync();
             }
         }
 
-        public Task<bool> UpdateCustomerAsync(CustomerEdit model)
+        public async Task<bool> UpdateCustomerAsync(CustomerEdit model)
         {
             using (var ctx = new src_backendContext())
             {
@@ -142,7 +147,7 @@ namespace SaintReverenceMVC.Services
             }
         }
 
-        public Task<bool> UpdateCustomerAsync(Guid id, CustomerEdit model)
+        public async Task<bool> UpdateCustomerAsync(Guid id, CustomerEdit model)
         {
             using (var ctx = new src_backendContext())
             {
@@ -165,7 +170,7 @@ namespace SaintReverenceMVC.Services
             }
         }
 
-        public Task<bool> DeleteCustomerAsync(Guid id)
+        public async Task<bool> DeleteCustomerAsync(Guid id)
         {
             using (var ctx = new src_backendContext())
             {

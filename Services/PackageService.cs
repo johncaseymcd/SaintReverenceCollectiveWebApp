@@ -4,10 +4,12 @@ using System.Linq;
 using SaintReverenceMVC.Data;
 using SaintReverenceMVC.Models.PackageModels;
 using SaintReverenceMVC.Services.ServiceContracts;
+using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
 
 namespace SaintReverenceMVC.Services{
     public class PackageService : IPackageService{
-        public bool CreatePackage(PackageCreate model){
+        public async Task<bool> CreatePackageAsync(PackageCreate model){
             var entity = new Package{
                 PackageName = model.PackageName,
                 PackageWeightInGrams = model.PackageWeightInGrams,
@@ -19,20 +21,21 @@ namespace SaintReverenceMVC.Services{
 
             using (var ctx = new src_backendContext()){
                 ctx.Packages.Add(entity);
-                return ctx.SaveChanges() == 1;
+                return await ctx.SaveChangesAsync() == 1;
             }
         }
 
-        public IEnumerable<PackageListItem> GetAllPackages(){
+        public async Task<IEnumerable<PackageListItem>> GetAllPackagesAsync(){
             using (var ctx = new src_backendContext()){
                 var query = ctx.Packages
                     .Select(pli => new PackageListItem{
                         PackageID = pli.PackageID,
                         PackageName = pli.PackageName,
                         PackageCostToShip = pli.PackageCostToShip
-                    });
+                    })
+                    .OrderBy(o => o.PackageCostToShip);
 
-                return query.ToList().OrderBy(o => o.PackageCostToShip);
+                return await query.ToListAsync();
             }
         }
 
@@ -50,21 +53,21 @@ namespace SaintReverenceMVC.Services{
             }
         }
 
-        public bool UpdatePackage(PackageEdit model){
+        public async Task<bool> UpdatePackageAsync(PackageEdit model){
             using (var ctx = new src_backendContext()){
                 var entity = ctx.Packages.Find(model.PackageID);
 
                 entity.PackageCostToShip = model.PackageCostToShip;
 
-                return ctx.SaveChanges() == 1;
+                return await ctx.SaveChangesAsync() == 1;
             }
         }
 
-        public bool DeletePackage(int id){
+        public async Task<bool> DeletePackageAsync(int id){
             using (var ctx = new src_backendContext()){
                 var entity = ctx.Packages.Find(id);
                 ctx.Packages.Remove(entity);
-                return ctx.SaveChanges() == 1;
+                return await ctx.SaveChangesAsync() == 1;
             }
         }
     }

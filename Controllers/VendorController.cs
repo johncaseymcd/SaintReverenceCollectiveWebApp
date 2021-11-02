@@ -2,12 +2,13 @@ using System;
 using Microsoft.AspNetCore.Mvc;
 using SaintReverenceMVC.Models.VendorModels;
 using SaintReverenceMVC.Services;
+using System.Threading.Tasks;
 
 namespace SaintReverenceMVC.Controllers{
     public class VendorController : Controller{
-        public IActionResult Index(){
+        public async Task<IActionResult> Index(){
             var svc = new VendorService();
-            var model = svc.GetAllVendors();
+            var model = await svc.GetAllVendorsAsync();
             return View(model);
         }
 
@@ -17,11 +18,11 @@ namespace SaintReverenceMVC.Controllers{
         }
 
         // POST: Create
-        public IActionResult Create(VendorCreate model){
+        public async Task<IActionResult> Create(VendorCreate model){
             if (!ModelState.IsValid) return View(model);
 
             var svc = new VendorService();
-            if (svc.CreateVendor(model)){
+            if (await svc.CreateVendorAsync(model)){
                 TempData["SaveResult"] = "Vendor has been successfully created!";
                 return Redirect(nameof(Index));
             }
@@ -61,7 +62,7 @@ namespace SaintReverenceMVC.Controllers{
         }
 
         // POST: Edit
-        public IActionResult Edit(int id, VendorEdit model){
+        public async Task<IActionResult> Edit(int id, VendorEdit model){
             if (!ModelState.IsValid) return View(model);
             if (model.VendorID != id){
                 ModelState.AddModelError("VendorIdMismatch", "Given ID parameter does not match existing database ID, please try again.");
@@ -69,7 +70,7 @@ namespace SaintReverenceMVC.Controllers{
             }
 
             var svc = new VendorService();
-            if (svc.UpdateVendor(model)){
+            if (await svc.UpdateVendorAsync(model)){
                 TempData["SaveResult"] = "Vendor information has been successfully updated!";
                 return Redirect(nameof(Index));
             }
@@ -88,9 +89,9 @@ namespace SaintReverenceMVC.Controllers{
 
         // POST: Delete
         [ActionName("Delete")]
-        public IActionResult DeleteVendor(int id){
+        public async Task<IActionResult> DeleteVendor(int id){
             var svc = new VendorService();
-            svc.DeleteVendor(id);
+            await svc.DeleteVendorAsync(id);
             TempData["SaveResult"] = "Vendor has been successfully deleted!";
             return Redirect(nameof(Index));
         }
